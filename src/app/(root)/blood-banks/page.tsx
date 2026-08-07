@@ -12,8 +12,8 @@ type Props = {
   }>
 }
 
-const BloodBanksPage = async ({searchParams}:Props) => {
-  const {query} = await searchParams
+const BloodBanksPage = async ({ searchParams }: Props) => {
+  const { query } = await searchParams
   const res = query && query !== undefined ? await callSearchText(query) : null
 
   return (

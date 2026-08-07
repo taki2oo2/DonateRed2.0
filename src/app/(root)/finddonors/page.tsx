@@ -6,7 +6,7 @@ import { Users } from 'lucide-react'
 const FindDonorsPage = () => {
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300 relative overflow-hidden">
-      
+
       {/* Background Ambient Glows & Grid Pattern */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none overflow-hidden">
         <div className="absolute top-10 left-1/2 -translate-x-1/2 h-[350px] w-[500px] rounded-full bg-[#FB2C36]/12 blur-[120px]" />
@@ -21,7 +21,7 @@ const FindDonorsPage = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 space-y-12">
-        
+
         {/* ============ SECTION 1: HERO & SEARCH ============ */}
         <section className="space-y-8">
           {/* Header Section */}
