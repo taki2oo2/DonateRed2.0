@@ -45,11 +45,11 @@ const DonorCard = ({ donor = defaultDonor }: DonorCardProps) => {
       {/* Middle: Contact Info */}
       <div className="flex flex-col gap-2.5 text-sm text-zinc-600 dark:text-[#ffb4ab]/85 md:ml-4">
         <div className="flex items-center gap-2.5">
-          <Mail className="size-4.5 text-[#ffb4ab]/60 dark:text-[#ffb4ab]/60" />
+          <Mail className="size-4.5 text-zinc-400 dark:text-[#ffb4ab]/60" />
           <a href={`mailto:${email}`} className="hover:underline">{email}</a>
         </div>
         <div className="flex items-center gap-2.5">
-          <Phone className="size-4.5 text-[#ffb4ab]/60 dark:text-[#ffb4ab]/60" />
+          <Phone className="size-4.5 text-zinc-400 dark:text-[#ffb4ab]/60" />
           <a href={`tel:${phone}`} className="hover:underline">{phone}</a>
         </div>
       </div>

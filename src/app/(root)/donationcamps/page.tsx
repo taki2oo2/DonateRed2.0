@@ -73,12 +73,12 @@ const DonationCampsPage = () => {
         </div>
 
         {/* Search Panel */}
-        <Search
-          placeholder="Search by location, camp name, or organizer..."
-          icon={<MapPin className="size-5" />}
-          btnChildren="Search Camps"
-          buttonClassName="bg-[#FB2C36] hover:bg-[#E7000B] text-white font-semibold border-none px-6 rounded-xl shadow-md shadow-red-500/20 transition-all cursor-pointer"
-        />
+        <div className="mt-6">
+          <Search
+            placeholder="Search by location, camp name, or organizer..."
+            icon={<MapPin className="size-5 text-zinc-400 dark:text-zinc-500" />}
+          />
+        </div>
 
         {/* Camps Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

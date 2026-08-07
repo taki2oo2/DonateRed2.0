@@ -48,7 +48,7 @@ const FindDonorsPage = () => {
           </div>
 
           {/* Search Card Container */}
-          <div className="relative rounded-3xl border border-zinc-200/80 dark:border-white/10 bg-white/70 dark:bg-[#0c0c0e]/80 p-6 sm:p-8 backdrop-blur-xl shadow-xl shadow-red-500/5 transition-all duration-300">
+          <div className="relative z-30 rounded-3xl border border-zinc-200/80 dark:border-white/10 bg-white/70 dark:bg-[#0c0c0e]/80 p-6 sm:p-8 backdrop-blur-xl shadow-xl shadow-red-500/5 transition-all duration-300">
             <div className="absolute inset-x-12 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#FB2C36]/50 to-transparent" />
             <DonarSearch />
           </div>
