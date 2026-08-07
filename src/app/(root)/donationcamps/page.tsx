@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import MyButton from '@/components/MyButton'
 import Search from '@/components/search/Search'
 import { useRouter } from "next/navigation"
@@ -74,10 +74,12 @@ const DonationCampsPage = () => {
 
         {/* Search Panel */}
         <div className="mt-6">
-          <Search
-            placeholder="Search by location, camp name, or organizer..."
-            icon={<MapPin className="size-5 text-zinc-400 dark:text-zinc-500" />}
-          />
+          <Suspense fallback={<div className="h-12 w-full bg-zinc-100 dark:bg-zinc-800/50 rounded-xl animate-pulse" />}>
+            <Search
+              placeholder="Search by location, camp name, or organizer..."
+              icon={<MapPin className="size-5 text-zinc-400 dark:text-zinc-500" />}
+            />
+          </Suspense>
         </div>
 
         {/* Camps Grid */}

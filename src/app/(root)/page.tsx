@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import WorkCard from "@/components/cards/WorkCard"
@@ -44,7 +45,9 @@ const page = () => {
               people ready to give.
             </p>
 
-            <DonarSearch compact className="mt-6 gap-3" />
+            <Suspense fallback={<div className="mt-6 grid grid-cols-1 md:grid-cols-12 gap-3 items-end"><div className="md:col-span-5 h-12 bg-zinc-100 dark:bg-zinc-800/50 rounded-xl animate-pulse" /><div className="md:col-span-4 h-12 bg-zinc-100 dark:bg-zinc-800/50 rounded-xl animate-pulse" /><div className="md:col-span-2 h-12 bg-zinc-100 dark:bg-zinc-800/50 rounded-xl animate-pulse" /></div>}>
+              <DonarSearch compact className="mt-6 gap-3" />
+            </Suspense>
 
             {/* Features Row */}
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-y-3 gap-x-6 text-xs font-normal leading-4 text-zinc-500 dark:text-zinc-400 w-full">

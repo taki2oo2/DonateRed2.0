@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import DonarSearch from '@/components/search/DonarSearch'
 import DonorCard from '@/components/cards/DonorCard'
 import { Users } from 'lucide-react'
@@ -50,7 +50,9 @@ const FindDonorsPage = () => {
           {/* Search Card Container */}
           <div className="relative z-30 rounded-3xl border border-zinc-200/80 dark:border-white/10 bg-white/70 dark:bg-[#0c0c0e]/80 p-6 sm:p-8 backdrop-blur-xl shadow-xl shadow-red-500/5 transition-all duration-300">
             <div className="absolute inset-x-12 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#FB2C36]/50 to-transparent" />
-            <DonarSearch />
+            <Suspense fallback={<div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end"><div className="md:col-span-5 h-12 bg-zinc-100 dark:bg-zinc-800/50 rounded-xl animate-pulse" /><div className="md:col-span-4 h-12 bg-zinc-100 dark:bg-zinc-800/50 rounded-xl animate-pulse" /><div className="md:col-span-3 h-12 bg-zinc-100 dark:bg-zinc-800/50 rounded-xl animate-pulse" /></div>}>
+              <DonarSearch />
+            </Suspense>
           </div>
         </section>
 

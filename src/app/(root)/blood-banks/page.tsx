@@ -1,6 +1,6 @@
 
 
-
+import { Suspense } from "react";
 import Search from "@/components/search/Search";
 import { Search as SearchIcon, ShieldCheck, Building2 } from "lucide-react";
 import { callSearchText } from "@/actions/google.action";
@@ -37,10 +37,12 @@ const BloodBanksPage = async ({ searchParams }: Props) => {
 
         {/* Search Bar */}
         <div className="mt-6">
-          <Search
-            placeholder="Enter city to find blood banks..."
-            icon={<SearchIcon className="size-5 text-zinc-400 dark:text-zinc-500" />}
-          />
+          <Suspense fallback={<div className="h-12 w-full bg-zinc-100 dark:bg-zinc-800/50 rounded-xl animate-pulse" />}>
+            <Search
+              placeholder="Enter city to find blood banks..."
+              icon={<SearchIcon className="size-5 text-zinc-400 dark:text-zinc-500" />}
+            />
+          </Suspense>
         </div>
 
         {/* Results Section */}
