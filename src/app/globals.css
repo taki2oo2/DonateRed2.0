@@ -53,8 +53,6 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -85,6 +83,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
 }
 
 .dark {
@@ -129,6 +129,42 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans;
+    @apply scroll-smooth font-sans;
+
+    /* Standard scrollbar properties for Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.8 0 0 / 0.35) transparent;
+  }
+
+  .dark html {
+    scrollbar-color: oklch(0.3 0 0 / 0.35) transparent;
+  }
+
+  /* Webkit custom scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.8 0 0 / 0.35);
+    border-radius: 9999px;
+    border: 2.5px solid transparent;
+    background-clip: padding-box;
+    transition: background-color 0.2s ease;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: oklch(0.3 0 0 / 0.35);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #FB2C36;
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
 }
