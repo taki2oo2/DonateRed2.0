@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition, useRef, useMemo } from "react"
+import { useState, useTransition, useRef, useMemo, Suspense } from "react"
 import * as z from "zod"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -16,6 +16,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import MyButton from "@/components/MyButton"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Search from "@/components/search/Search"
 
 type PostCampFormValues = z.infer<typeof PostCampFormSchema>
 
@@ -255,14 +256,15 @@ const PostCampPage = () => {
                                         <FieldLabel className="text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-400 uppercase">
                                             CITY
                                         </FieldLabel>
-                                        <Input
-                                            {...field}
-                                            id={field.name}
-                                            aria-invalid={fieldState.invalid}
-                                            placeholder="e.g., Seattle, WA"
-                                            type="text"
-                                            className="h-11 bg-zinc-100/70 dark:bg-white/[0.03] border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/20 dark:focus-visible:ring-[#FB2C36]/30 rounded-lg text-sm px-4 transition-all hover:border-zinc-300 dark:hover:border-white/20"
-                                        />
+                                        <Suspense fallback={<div className="h-11 w-full bg-zinc-100/70 dark:bg-white/[0.03] rounded-lg animate-pulse" />}>
+                                            <Search
+                                                placeholder="e.g., Seattle, WA"
+                                                value={field.value}
+                                                onSelectAddress={field.onChange}
+                                                disableUrlUpdate
+                                                inputClassName="h-11 bg-zinc-100/70 dark:bg-white/[0.03] border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:border-[#FB2C36] focus:ring-[#FB2C36]/20 dark:focus:ring-[#FB2C36]/30 rounded-lg text-sm transition-all hover:border-zinc-300 dark:hover:border-white/20"
+                                            />
+                                        </Suspense>
                                         {fieldState.invalid && fieldState.error?.message && (
                                             <FieldError errors={[fieldState.error]} className="text-xs text-red-500 mt-1" />
                                         )}

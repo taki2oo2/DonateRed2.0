@@ -20,6 +20,8 @@ type AutocompleteSearchProps = {
   inputClassName?: string;
   onSelectAddress?: (address: string) => void;
   onSelectPlace?: (place: PlaceData) => void;
+  value?: string;
+  disableUrlUpdate?: boolean;
 };
 
 export const Autocompletesearch = ({
@@ -28,9 +30,11 @@ export const Autocompletesearch = ({
   inputClassName,
   onSelectAddress,
   onSelectPlace,
+  value,
+  disableUrlUpdate,
 }: AutocompleteSearchProps) => {
-  const [input, setInput] = useState("");
-  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+  const [input, setInput] = useState(value || "");
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(value || null);
   const [predictions, setPredictions] = useState<PlaceData[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -38,7 +42,14 @@ export const Autocompletesearch = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (value !== undefined && value !== input) {
+      setInput(value);
+    }
+  }, [value]);
+
   const updateUrlQuery = (queryValue: string) => {
+    if (disableUrlUpdate) return;
     if (queryValue.trim()) {
       const newUrl = formUrlQuery({
         params: searchParams.toString(),
@@ -76,11 +87,6 @@ export const Autocompletesearch = ({
   const handleBlur = () => {
     setTimeout(() => {
       setIsOpen(false);
-      if (!selectedAddress) {
-        setInput("");
-      } else {
-        setInput(selectedAddress);
-      }
     }, 200);
   };
 

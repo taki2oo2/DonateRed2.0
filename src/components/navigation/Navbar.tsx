@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import NavbarLinks from "./NavbarLinks";
-import MyButton from "../MyButton";
+import AuthButton from "./AuthButton";
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
+import UserAvatar from "./UserAvatar";
 import { Menu } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import {
@@ -43,14 +44,11 @@ const Navbar = () => {
         {/* Right: Desktop Actions (visible at >= 950px) */}
         <div className="hidden min-[950px]:flex items-center gap-4">
           <ThemeToggle />
+          <UserAvatar />
 
-          <MyButton
-            disabled={false}
+          <AuthButton
             className="h-9 px-4 bg-[#FB2C36] text-white hover:bg-[#FB2C36]/90 transition-[background-color,transform] duration-200 font-medium rounded-lg shadow-sm shadow-red-500/10 hover:shadow-red-500/20 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-950 cursor-pointer"
-            onClick={() => router.push("/getStarted")}
-          >
-            Get Started
-          </MyButton>
+          />
         </div>
 
         {/* Mobile: Actions (Theme Toggle & Hamburger Sheet) (visible at < 950px) */}
@@ -113,18 +111,12 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* Get Started Button at bottom */}
+              {/* Auth Button at bottom */}
               <SheetFooter className="p-0 flex flex-col gap-3 mt-auto border-t border-zinc-100 dark:border-zinc-900/80 pt-4">
-                <MyButton
-                  disabled={false}
+                <AuthButton
                   className="w-full h-11 bg-[#FB2C36] text-white hover:bg-[#FB2C36]/90 transition-[background-color,transform] duration-200 font-medium rounded-xl shadow-md shadow-red-500/10 hover:shadow-red-500/20 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 cursor-pointer flex items-center justify-center"
-                  onClick={() => {
-                    setIsOpen(false);
-                    router.push("/getStarted");
-                  }}
-                >
-                  Get Started
-                </MyButton>
+                  onClick={() => setIsOpen(false)}
+                />
               </SheetFooter>
             </SheetContent>
           </Sheet>
@@ -135,4 +127,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

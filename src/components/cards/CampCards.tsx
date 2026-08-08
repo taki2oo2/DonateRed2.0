@@ -15,6 +15,7 @@ const CampCards = ({ camp }: { camp: Camp }) => {
                         src={camp.imageUrl}
                         alt={camp.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover opacity-90 dark:opacity-85"
                     />
                 )}

@@ -15,7 +15,6 @@ import {
 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Logo from "@/components/navigation/Logo"
-import { Span } from "next/dist/trace"
 
 const GetStartedPage = () => {
   return (

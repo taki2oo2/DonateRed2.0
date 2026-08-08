@@ -14,7 +14,7 @@ export const SignupFormSchema = z.object({
         .min(1, { message: "Email is Required" }),
 
     contactnumber: z.string()
-        .regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian phone number"),
+        .regex(/^(\+?[1-9]\d{6,14}|[6-9]\d{9})$/, "Enter a valid phone number (e.g. 9876543210 or +919876543210)"),
 
     password: z
         .string()
@@ -62,8 +62,8 @@ export const PostCampFormSchema = z
 
         city: z
             .string()
-            .min(1, { message: "Organizer name is required." })
-            .max(25, { message: "Organizer name cannot exceed 25 characters." }),
+            .min(1, { message: "City is required." })
+            .max(25, { message: "City cannot exceed 25 characters." }),
 
         description: z
             .string()

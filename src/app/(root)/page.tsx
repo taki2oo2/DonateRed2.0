@@ -5,6 +5,7 @@ import WorkCard from "@/components/cards/WorkCard"
 import MyButton from '../../components/MyButton';
 import Link from "next/link"
 import DonarSearch from "@/components/search/DonarSearch";
+import ROUTES from "@/constants/routes";
 
 const page = () => {
   return (
@@ -78,6 +79,7 @@ const page = () => {
               src="/health.png"
               alt="medical illustration"
               fill
+              sizes="(min-width: 1024px) 48vw, 0px"
               className="object-cover object-[center_35%] opacity-45 dark:opacity-30 [filter:saturate(0.85)_contrast(0.95)]"
               priority
             />
@@ -122,7 +124,7 @@ const page = () => {
               asChild
               className="h-11 min-w-[160px] gap-2 rounded-xl bg-[#FB2C36] px-6 text-sm font-medium text-white shadow-[0_12px_30px_-18px_rgba(251,44,54,0.8)] hover:!bg-[#E7000B] hover:!text-white cursor-pointer"
             >
-              <Link href="/donate">
+              <Link href= {ROUTES.DONATE}>
                 <Image src="/heartline.svg" alt="" width={16} height={16} className="size-4 brightness-0 invert" />
                 Become a Donor
               </Link>
@@ -131,7 +133,7 @@ const page = () => {
               asChild
               className="h-11 min-w-[150px] gap-2 rounded-xl border border-[#E4E4E7] bg-white/50 px-6 text-sm font-medium text-[#FB2C36] shadow-none backdrop-blur-md hover:!bg-[#FEF2F2] hover:!text-[#E7000B] dark:border-white/15 dark:bg-white/10 dark:text-white dark:hover:!bg-white/15 dark:hover:!text-white cursor-pointer"
             >
-              <Link href="/finddonors">
+              <Link href = {ROUTES.FIND_DONORS}>
                 <Image src="/drop-red.svg" alt="" width={16} height={16} className="size-4 dark:brightness-0 dark:invert" />
                 Request Blood
               </Link>
