@@ -110,7 +110,7 @@ export const Autocompletesearch = ({
     }
 
     const timer = setTimeout(async () => {
-      const data = await autocomplete(input);
+      const {data} = await autocomplete(input);
       if (data && data.length > 0) {
         setPredictions(data);
         setIsOpen(true);

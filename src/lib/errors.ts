@@ -13,3 +13,13 @@ export class RequestError extends Error {
     this.name = "RequestError";
   }
 }
+
+export class NotFoundError extends RequestError {
+  constructor(resource: string) {
+    // 404 is HTTP status for "Not Found"
+    super(404, `${resource} not found`);
+    
+    // Custom error name
+    this.name = "NotFoundError";
+  }
+}
