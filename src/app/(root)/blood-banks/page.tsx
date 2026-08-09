@@ -4,17 +4,20 @@ import { Suspense } from "react";
 import Search from "@/components/search/Search";
 import { Search as SearchIcon, ShieldCheck, Building2 } from "lucide-react";
 import { callSearchText } from "@/actions/google.action";
-import BloodBankCard, { BloodBank } from "@/components/cards/BloodBankCard";
+import BloodBankCard from "@/components/cards/BloodBankCard";
 
 type Props = {
   searchParams: Promise<{
-    query?: string
-  }>
-}
+    query?: string;
+  }>;
+};
 
 const BloodBanksPage = async ({ searchParams }: Props) => {
-  const { query } = await searchParams
-  const res = query && query !== undefined ? await callSearchText(query) : null
+  const { query } = await searchParams;
+  const res: ActionResponse<BloodBank[]> | null =
+    query ? await callSearchText(query) : null;
+
+  const bloodBanks: BloodBank[] = res?.success ? (res.data ?? []) : [];
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
@@ -54,21 +57,21 @@ const BloodBanksPage = async ({ searchParams }: Props) => {
                 {query ? `Blood Banks in "${query}"` : "Nearby Blood Banks"}
               </h2>
             </div>
-            {res && res.length > 0 && (
+            {bloodBanks.length > 0 && (
               <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                Found {res.length} blood bank{res.length > 1 ? "s" : ""}
+                Found {bloodBanks.length} blood bank{bloodBanks.length > 1 ? "s" : ""}
               </span>
             )}
           </div>
 
           <div className="space-y-4">
-            {res && res.length > 0 ? (
-              res.map((bank: BloodBank, index: number) => (
+            {bloodBanks.length > 0 ? (
+              bloodBanks.map((bank, index) => (
                 <BloodBankCard key={bank.link || index} bloodBank={bank} />
               ))
             ) : query ? (
               <div className="text-center py-12 text-zinc-500 dark:text-zinc-400 text-sm">
-                No blood banks found for "{query}". Try searching another city.
+                {res?.error?.message ?? `No blood banks found for "${query}". Try searching another city.`}
               </div>
             ) : (
               <div className="text-center py-12 text-zinc-500 dark:text-zinc-400 text-sm">
@@ -83,4 +86,4 @@ const BloodBanksPage = async ({ searchParams }: Props) => {
   );
 };
 
-export default BloodBanksPage;
+export default BloodBanksPage;
