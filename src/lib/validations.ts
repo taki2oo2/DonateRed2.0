@@ -136,3 +136,38 @@ export const UserValidationSchema = z.object({
         .optional(),
     isDonar: z.boolean().default(false),
 })
+
+export const DonorEligibilitySchema = z.object({
+  ageEligible: z.enum(["yes", "no"], {
+    message: "Please select an answer for age eligibility.",
+  }),
+  weightEligible: z.enum(["yes", "no"], {
+    message: "Please select an answer for weight eligibility.",
+  }),
+  chronicIllness: z.enum(["yes", "no"], {
+    message: "Please select an answer for chronic illnesses.",
+  }),
+  medicalConditions: z.array(z.string()).min(1, {
+    message: "Please select at least one condition or select 'None of the above'.",
+  }),
+  pregnantOrRecent: z.enum(["yes", "no", "na"], {
+    message: "Please select an answer for pregnancy status.",
+  }),
+  breastfeeding: z.enum(["yes", "no", "na"], {
+    message: "Please select an answer for breastfeeding status.",
+  }),
+  consentSharePhone: z.enum(["yes", "no"], {
+    message: "Please select an answer for phone number sharing consent.",
+  }),
+  consentEmergency: z.enum(["yes", "no"], {
+    message: "Please select an answer for emergency availability.",
+  }),
+  contactnumber: z.string()
+    .regex(/^(\+?[1-9]\d{6,14}|[6-9]\d{9})$/, "Enter a valid phone number (e.g. 9876543210 or +919876543210)"),
+  city: z.string()
+    .min(1, { message: "City is required." })
+    .max(100, { message: "City cannot exceed 100 characters." }),
+  agreeTerms: z.boolean().refine((val) => val === true, {
+    message: "You must agree to the terms of donation to proceed.",
+  }),
+})
