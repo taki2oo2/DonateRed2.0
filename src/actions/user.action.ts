@@ -14,11 +14,11 @@ interface RegisterDonorParams {
 }
 
 
-export const isUserDonor = async (userId: string): Promise<ActionResponse<IUser>> => {
+export const isUserDonor = async (userId: string): Promise<ActionResponse<boolean>> => {
   try {
     await dbConnect();
-    const dbUser = await User.findOne({ clerkid: userId }).lean<IUser>();
-    return { success: true, data: dbUser || undefined, status: 200 };
+    const dbUser = await User.findOne({ clerkid: userId }).select("isDonar").lean();
+    return { success: true, data: dbUser?.isDonar || false, status: 200 };
   } catch (error) {
     return handleError(error, "server") as ErrorResponse;
   }

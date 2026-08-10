@@ -7,29 +7,18 @@ import {
   Check, 
   ChevronDown, 
   ChevronUp, 
-  Pencil, 
   Ban, 
-  Loader2, 
-  ArrowLeft 
+  Loader2 
 } from 'lucide-react';
 import MyButton from '@/components/MyButton';
 import { removeDonorStatus } from '@/actions/user.action';
-import DonorEligibilityForm from './forms/DonorEligibilityForm';
 
 interface AlreadyDonarProps {
-  user: {
-    clerkid: string;
-    fullname: string;
-    email: string;
-    contactno?: string;
-    city?: string;
-    isDonar: boolean;
-  };
+  userId: string;
 }
 
-const AlreadyDonar = ({ user }: AlreadyDonarProps) => {
+const AlreadyDonar = ({ userId }: AlreadyDonarProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [showConfirmStop, setShowConfirmStop] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -37,7 +26,7 @@ const AlreadyDonar = ({ user }: AlreadyDonarProps) => {
   const handleStopBeingDonor = async () => {
     startTransition(async () => {
       try {
-        const res = await removeDonorStatus(user.clerkid);
+        const res = await removeDonorStatus(userId);
         if (res.success) {
           toast.success("Your donor profile has been deactivated.");
           setShowConfirmStop(false);
@@ -50,21 +39,6 @@ const AlreadyDonar = ({ user }: AlreadyDonarProps) => {
       }
     });
   };
-
-  if (isEditing) {
-    return (
-      <div className="w-full max-w-3xl mx-auto space-y-6">
-        <button 
-          onClick={() => setIsEditing(false)}
-          className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm font-medium mb-4"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to profile
-        </button>
-        <DonorEligibilityForm />
-      </div>
-    );
-  }
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-6 text-left">
@@ -103,61 +77,18 @@ const AlreadyDonar = ({ user }: AlreadyDonarProps) => {
         </MyButton>
       </div>
 
-      {/* Expanded Profile Card */}
+      {/* Expanded Actions Card */}
       {isOpen && (
         <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-6 md:p-8 space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
-          <h2 className="text-xl font-bold text-white tracking-tight">Profile Details</h2>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
-            <div className="space-y-1">
-              <span className="text-[10px] sm:text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                Full Name
-              </span>
-              <p className="text-sm sm:text-base font-semibold text-white">
-                {user.fullname}
-              </p>
-            </div>
-            
-            <div className="space-y-1">
-              <span className="text-[10px] sm:text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                City
-              </span>
-              <p className="text-sm sm:text-base font-semibold text-white">
-                {user.city || "Not specified"}
-              </p>
-            </div>
-            
-            <div className="space-y-1">
-              <span className="text-[10px] sm:text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                Contact Number
-              </span>
-              <p className="text-sm sm:text-base font-semibold text-white">
-                {user.contactno || "Not specified"}
-              </p>
-            </div>
-            
-            <div className="space-y-1">
-              <span className="text-[10px] sm:text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                Email
-              </span>
-              <p className="text-sm sm:text-base font-semibold text-white break-all">
-                {user.email}
-              </p>
-            </div>
-          </div>
+          <h2 className="text-xl font-bold text-white tracking-tight">Profile Options</h2>
+          <p className="text-zinc-400 text-sm">
+            If you need to change your availability, pause requests, or temporarily opt out of the donor directory, you can deactivate your profile here.
+          </p>
 
-          <div className="pt-6 border-t border-zinc-800 flex flex-wrap gap-4 items-center justify-between">
-            <button
-              onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm font-semibold py-2 px-3 -ml-3 rounded-lg hover:bg-zinc-800/30"
-            >
-              <Pencil className="w-4 h-4 text-zinc-400" />
-              Edit Details
-            </button>
-
+          <div className="pt-6 border-t border-zinc-800 flex items-center justify-end">
             <button
               onClick={() => setShowConfirmStop(true)}
-              className="flex items-center gap-2 text-red-500/80 hover:text-red-500 transition-colors text-sm font-semibold py-2 px-3 -mr-3 rounded-lg hover:bg-red-500/5"
+              className="flex items-center gap-2 text-red-500/80 hover:text-red-500 transition-colors text-sm font-semibold py-2 px-4 rounded-lg hover:bg-red-500/5 border border-red-500/20"
             >
               <Ban className="w-4 h-4 text-red-500/80" />
               Stop being a donor

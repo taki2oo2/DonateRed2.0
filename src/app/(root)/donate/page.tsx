@@ -12,14 +12,10 @@ const DonatePage = async () => {
   }
 
   let isDonor = false
-  let data = null
 
-  if (userId) {
+  if (userId && isAuthenticated) {
     const res = await isUserDonor(userId)
-    if (res.success && res.data) {
-      isDonor = res.data.isDonar
-      data = res.data
-    }
+    isDonor = !!(res.success && res.data)
   }
 
   return (
@@ -33,8 +29,8 @@ const DonatePage = async () => {
 
       {/* Main Content */}
       <div className="relative z-10 w-full flex justify-center">
-        {isDonor && data ? (
-          <AlreadyDonar user={JSON.parse(JSON.stringify(data))} />
+        {isDonor ? (
+          <AlreadyDonar userId={userId} />
         ) : (
           <DonorEligibilityForm />
         )}
