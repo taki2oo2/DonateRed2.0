@@ -57,7 +57,7 @@ const dbConnect = async (): Promise<Mongoose> => {
     // regardless of what's encoded in the URI).
     cached.promise = mongoose
       .connect(MONGODB_URI, {
-        dbName: "DonateRed2.0",
+        dbName: "DonateRed2_0",
       })
       .then((res) => {
         // This `then` runs when mongoose.connect resolves successfully.
