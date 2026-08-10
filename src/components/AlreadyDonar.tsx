@@ -8,7 +8,8 @@ import {
   ChevronDown, 
   ChevronUp, 
   Ban, 
-  Loader2 
+  Loader2,
+  User
 } from 'lucide-react';
 import MyButton from '@/components/MyButton';
 import { removeDonorStatus } from '@/actions/user.action';
@@ -85,7 +86,15 @@ const AlreadyDonar = ({ userId }: AlreadyDonarProps) => {
             If you need to change your availability, pause requests, or temporarily opt out of the donor directory, you can deactivate your profile here.
           </p>
 
-          <div className="pt-6 border-t border-zinc-800 flex items-center justify-end">
+          <div className="pt-6 border-t border-zinc-800 flex items-center justify-between gap-4 flex-wrap">
+            <MyButton
+              onClick={() => router.push('/profile')}
+              className="bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg px-4 py-2 font-semibold flex items-center gap-2"
+            >
+              <User className="w-4 h-4 text-zinc-400" />
+              View Profile
+            </MyButton>
+
             <button
               onClick={() => setShowConfirmStop(true)}
               className="flex items-center gap-2 text-red-500/80 hover:text-red-500 transition-colors text-sm font-semibold py-2 px-4 rounded-lg hover:bg-red-500/5 border border-red-500/20"
