@@ -1,6 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import React from 'react'
 
 const DonatePage = async () => {
   const { isAuthenticated } = await auth()

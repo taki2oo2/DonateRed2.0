@@ -11,8 +11,6 @@ import { User, Mail, Phone, Lock, KeyRound, ArrowLeft, Loader2, MapPin } from "l
 import { useSignUp, useClerk } from "@clerk/nextjs"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Suspense } from "react"
-import  Search  from "@/components/search/Search"
 import { toast } from "sonner"
 
 type SignupFormValues = z.infer<typeof SignupFormSchema>
@@ -34,7 +32,6 @@ const Signup = () => {
     defaultValues: {
       fullname: "",
       email: "",
-      contactnumber: "",
       password: "",
     },
   })
@@ -52,10 +49,6 @@ const Signup = () => {
       password: data.password,
       firstName,
       lastName,
-      unsafeMetadata: {
-        contactnumber: data.contactnumber,
-        city: data.city,
-      },
     })
 
     if (error) {
@@ -190,60 +183,6 @@ const Signup = () => {
               )}
             />
 
-            <Controller
-              name="contactnumber"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field className="flex flex-col gap-1.5" data-invalid={fieldState.invalid}>
-                  <FieldLabel className="text-sm font-medium text-zinc-300" htmlFor={field.name}>
-                    Contact Number
-                  </FieldLabel>
-                  <div className="relative flex items-center">
-                    <span className="absolute left-3 text-zinc-500">
-                      <Phone className="size-4" />
-                    </span>
-                    <Input
-                      {...field}
-                      id={field.name}
-                      aria-invalid={fieldState.invalid}
-                      placeholder="Please Enter Your Contact Number"
-                      type="tel"
-                      required
-                      className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/30 h-10 rounded-lg"
-                    />
-                  </div>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} className="text-xs text-red-500 mt-1" />
-                  )}
-                </Field>
-              )}
-            />
-
-            <Controller
-              name="city"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field className="flex flex-col gap-1.5" data-invalid={fieldState.invalid}>
-                  <FieldLabel className="text-sm font-medium text-zinc-300" htmlFor={field.name}>
-                    City
-                  </FieldLabel>
-                  <Suspense fallback={<div className="h-10 w-full bg-white/5 border border-white/10 rounded-lg animate-pulse" />}>
-                    <Search
-                      placeholder="Please Enter Your City"
-                      value={field.value}
-                      onSelectAddress={field.onChange}
-                      disableUrlUpdate
-                      icon={<MapPin className="size-4" />}
-                      inputClassName="h-10 bg-white/5 border-white/10 text-white placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/30 rounded-lg"
-                    />
-                  </Suspense>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} className="text-xs text-red-500 mt-1" />
-                  )}
-                </Field>
-              )}
-            />
-            
             <Controller
               name="password"
               control={form.control}
