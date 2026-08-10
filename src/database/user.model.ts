@@ -1,7 +1,9 @@
 import {Schema,models,model} from "mongoose"
 
 
+
 export interface IUser{
+    clerkid:string,
     fullname:string,
     email:string,
     contactno:string,
@@ -11,17 +13,25 @@ export interface IUser{
 
 const UserSchema = new Schema<IUser>(
     {
+        clerkid:{
+            type:String,
+            required:true,
+            unique:true,
+            index: true,
+        },
         fullname:{
             type:String,
             required:true
         },
         email:{
             type:String,
-            required:true
+            required:true,
+            unique:true
         },
         contactno:{
             type:String,
-            required:true
+            required:true,
+            unique:true
         },
         city:{
             type:String,
@@ -29,7 +39,8 @@ const UserSchema = new Schema<IUser>(
         },
         isDonar:{
             type:Boolean,
-            required:true
+            required:true,
+            default:false
         }
     },{
         timestamps:true

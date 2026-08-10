@@ -1,5 +1,5 @@
-
-
+import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 import { Suspense } from "react";
 import Search from "@/components/search/Search";
 import { Search as SearchIcon, ShieldCheck, Building2 } from "lucide-react";
@@ -13,9 +13,15 @@ type Props = {
 };
 
 const BloodBanksPage = async ({ searchParams }: Props) => {
+  const { isAuthenticated } = await auth()
+  if (!isAuthenticated) {
+    redirect('/getStarted?msg=signin_required')
+  }
+
+
   const { query } = await searchParams;
   const res: ActionResponse<BloodBank[]> | null =
-    query ? await callSearchText(query) : null;
+    query && isAuthenticated ? await callSearchText(query) : null;
 
   const bloodBanks: BloodBank[] = res?.success ? (res.data ?? []) : [];
 
@@ -86,4 +92,4 @@ const BloodBanksPage = async ({ searchParams }: Props) => {
   );
 };
 
-export default BloodBanksPage;
+export default BloodBanksPage;

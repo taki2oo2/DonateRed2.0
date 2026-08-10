@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { RequestError } from "@/lib/errors";
+import { ZodError } from "zod";
+import { ValidationError } from "@/lib/errors";
+import logger from "./logger";
 
 export type ResponseType = "api" | "server";
 
@@ -25,7 +28,7 @@ const formatResponse = (
 const handleError = (
   error: unknown,
   responseType: ResponseType = "server"
-): ErrorResponse => {
+) => {
   if (error instanceof RequestError) {
     return formatResponse(
       responseType,
@@ -35,7 +38,27 @@ const handleError = (
     ) as ErrorResponse;
   }
 
+  if (error instanceof ZodError) {
+    
+    const validationError = new ValidationError(
+      error.flatten().fieldErrors as Record<string, string[]>
+    );
+    return formatResponse(
+      responseType,
+      validationError.statusCode, // 400
+      validationError.message, // "Field is required..."
+      validationError.errors // { field: ["..."] }
+    );
+  }
+
+    if (error instanceof Error) {
+    // 500 means "Internal Server Error"
+    logger.error({error},error.message);
+    return formatResponse(responseType, 500, error.message);
+  }
+
   // Fallback for unexpected errors (network failures, runtime exceptions, etc.)
+  logger.error({ err: error }, "An unexpected error occurred");
   return formatResponse(
     responseType,
     500,

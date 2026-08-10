@@ -44,3 +44,16 @@ type ActionResponse<T = null> = {
 }
 
 type ErrorResponse = ActionResponse<undefined> & { success: false };
+type SuccessResponse<T = null> = ActionResponse<T> & { sucess: true };
+type APIErrorResponse = NextResponse<ErrorResponse>
+type APISuccessResponse<T> = NextResponse<SuccessResponse<T>>
+type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
+
+type User = {
+  clerkid: string;
+  fullname: string;
+  email: string;
+  contactno: string;
+  city: string;
+  isDonar: boolean;
+}

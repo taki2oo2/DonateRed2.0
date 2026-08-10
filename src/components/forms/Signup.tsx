@@ -7,10 +7,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { FieldError, FieldGroup, FieldLabel, Field } from "../ui/field"
 import { Input } from "../ui/input"
 import MyButton from "@/components/MyButton"
-import { User, Mail, Phone, Lock, KeyRound, ArrowLeft, Loader2 } from "lucide-react"
+import { User, Mail, Phone, Lock, KeyRound, ArrowLeft, Loader2, MapPin } from "lucide-react"
 import { useSignUp, useClerk } from "@clerk/nextjs"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { Suspense } from "react"
+import  Search  from "@/components/search/Search"
+import { toast } from "sonner"
 
 type SignupFormValues = z.infer<typeof SignupFormSchema>
 
@@ -51,6 +54,7 @@ const Signup = () => {
       lastName,
       unsafeMetadata: {
         contactnumber: data.contactnumber,
+        city: data.city,
       },
     })
 
@@ -84,10 +88,11 @@ const Signup = () => {
       return
     }
 
-    
+
     if (signUp.status === "complete") {
       if (signUp.createdSessionId && setActive) {
         await setActive({ session: signUp.createdSessionId })
+        toast.success("Account created successfully! Welcome to DonateRed.")
         router.push("/")
       } else {
         await signUp.finalize({
@@ -214,6 +219,31 @@ const Signup = () => {
               )}
             />
 
+            <Controller
+              name="city"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field className="flex flex-col gap-1.5" data-invalid={fieldState.invalid}>
+                  <FieldLabel className="text-sm font-medium text-zinc-300" htmlFor={field.name}>
+                    City
+                  </FieldLabel>
+                  <Suspense fallback={<div className="h-10 w-full bg-white/5 border border-white/10 rounded-lg animate-pulse" />}>
+                    <Search
+                      placeholder="Please Enter Your City"
+                      value={field.value}
+                      onSelectAddress={field.onChange}
+                      disableUrlUpdate
+                      icon={<MapPin className="size-4" />}
+                      inputClassName="h-10 bg-white/5 border-white/10 text-white placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/30 rounded-lg"
+                    />
+                  </Suspense>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} className="text-xs text-red-500 mt-1" />
+                  )}
+                </Field>
+              )}
+            />
+            
             <Controller
               name="password"
               control={form.control}

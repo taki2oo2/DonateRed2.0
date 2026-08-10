@@ -11,6 +11,7 @@ import { Mail, Lock, Loader2 } from "lucide-react"
 import { useSignIn, useClerk } from "@clerk/nextjs"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 type SigninFormValues = z.infer<typeof SigninFormSchema>
 
@@ -43,6 +44,7 @@ const Signin = () => {
         if (signIn.status === "complete") {
             if (signIn.createdSessionId && setActive) {
                 await setActive({ session: signIn.createdSessionId })
+                toast.success("Welcome back! Signed in successfully.")
                 router.push("/")
             } else {
                 await signIn.finalize({

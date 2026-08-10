@@ -4,6 +4,9 @@ import Image from "next/image"
 import Link from "next/link"
 import Signup from "@/components/forms/Signup"
 import Signin from "@/components/forms/Signin"
+import { useEffect, Suspense } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 import {
   ArrowRight,
@@ -17,6 +20,27 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Logo from "@/components/navigation/Logo"
 
 const GetStartedPage = () => {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  useEffect(() => {
+    const msg = searchParams.get("msg")
+    const messages: Record<string, string> = {
+      signin_required: "Please sign in to search for Blood Banks in your city",
+      donate_signin_required: "Please sign in to donate blood",
+      postcamp_signin_required: "Please sign in to post a donation camp",
+    }
+
+    if (msg && messages[msg]) {
+      toast.info(messages[msg], {
+        position: "top-center",
+        dismissible: true,
+        closeButton: true,
+      })
+      // Clean up the URL so the toast doesn't re-fire on refresh
+      router.replace("/getStarted", { scroll: false })
+    }
+  }, [searchParams, router])
   return (
     <main className="relative min-h-screen lg:h-screen lg:overflow-hidden bg-[#050506] text-white">
       {/* Ambient background glow */}
@@ -89,7 +113,7 @@ const GetStartedPage = () => {
             </span>
           </Link>
 
-          <Tabs defaultValue="login" className=" mt-20 relative z-10 w-full max-w-[420px]">
+          <Tabs defaultValue="login" className=" mt-40 relative z-10 w-full max-w-[420px]">
             {/* Card header */}
             <div className="mb-6 text-center lg:text-left">
               <span className="mb-3 inline-flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
@@ -176,4 +200,12 @@ const GetStartedPage = () => {
   )
 }
 
-export default GetStartedPage
+const GetStartedPageWrapped = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#050506] text-white flex items-center justify-center">Loading...</div>}>
+      <GetStartedPage />
+    </Suspense>
+  )
+}
+
+export default GetStartedPageWrapped

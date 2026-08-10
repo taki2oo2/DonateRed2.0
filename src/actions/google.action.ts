@@ -39,7 +39,7 @@ export const autocomplete = async (
 
     return { success: true, data };
   } catch (error) {
-    return handleError(error);
+    return handleError(error) as ErrorResponse;
   }
 };
 
@@ -84,6 +84,6 @@ export const callSearchText = async (
 
     return { success: true, data };
   } catch (error) {
-    return handleError(error);
+    return handleError(error) as ErrorResponse;
   }
 };
