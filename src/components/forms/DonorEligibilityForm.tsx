@@ -215,7 +215,7 @@ export const DonorEligibilityForm = () => {
 
       {/* Form Content Card */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="relative bg-zinc-950/40 border border-zinc-800/70 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6 before:absolute before:inset-0 before:backdrop-blur-xl before:rounded-2xl before:-z-10">
+        <div className="relative overflow-visible bg-zinc-950/40 border border-zinc-800/70 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6 before:absolute before:inset-0 before:backdrop-blur-xl before:rounded-2xl before:-z-10">
 
           {/* Card Header */}
           <div className="flex items-center gap-3 border-b border-zinc-800 pb-4 mb-6">

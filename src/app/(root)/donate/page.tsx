@@ -19,7 +19,7 @@ const DonatePage = async () => {
   }
 
   return (
-    <div className="relative min-h-screen bg-zinc-950 text-white py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-screen bg-zinc-950 text-white py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       {/* Glow effect backgrounds */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#FB2C36]/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-red-900/10 blur-[120px] pointer-events-none" />
