@@ -24,18 +24,22 @@ export async function POST(req: NextRequest): Promise<APIResponse> {
             const firstName = user.first_name;
             const lastName = user.last_name;
             const fullname = `${firstName} ${lastName}`.trim();
-            
-            
+            // Extract private metadata fields securely if they exist (otherwise undefined)
+            const contactno = (user.private_metadata?.contactnumber as string) || undefined;
+            const city = (user.private_metadata?.city as string) || undefined;
+
             const userToValidate = {
                 clerkid,
                 fullname,
                 email,
+                contactno,
+                city,
                 isDonar: false,
             };
 
             const validatedData = UserValidationSchema.safeParse(userToValidate);
             if (!validatedData.success) {
-                logger.warn({ errors: validatedData.error.flatten().fieldErrors }, `Clerk Webhook validation failed for user.created: clerkid=${clerkid}`);
+                logger.warn({ errors: validatedData.error.flatten().fieldErrors }, `Clerk Webhook validation failed for ${evt.type}: clerkid=${clerkid}`);
                 throw new ValidationError(validatedData.error.flatten().fieldErrors)
             }
             const tValidated = performance.now();
@@ -49,7 +53,7 @@ export async function POST(req: NextRequest): Promise<APIResponse> {
             const tMongooseStart = performance.now();
             const newUser = await User.findOneAndUpdate(
                 {
-                clerkid: validatedData.data.clerkid       
+                    clerkid: validatedData.data.clerkid
                 },
                 validatedData.data,
                 {
@@ -60,9 +64,9 @@ export async function POST(req: NextRequest): Promise<APIResponse> {
             );
             const tMongooseEnd = performance.now();
             logger.info(`[Perf] User findOneAndUpdate took ${(tMongooseEnd - tMongooseStart).toFixed(2)}ms`);
-            logger.info(`Successfully synced user.created webhook to MongoDB: clerkid=${validatedData.data.clerkid}`);
+            logger.info(`Successfully synced ${evt.type} webhook to MongoDB: clerkid=${validatedData.data.clerkid}`);
 
-            const res = {success:true,data:newUser,status:201}
+            const res = { success: true, data: newUser, status: 201 }
             return NextResponse.json(res, { status: 201 }) as APISuccessResponse<typeof res>
         }
 

@@ -127,5 +127,12 @@ export const UserValidationSchema = z.object({
             message: "Plese provide a valid email address.",
         })
         .min(1, { message: "Email is Required" }),
+    contactno: z.string()
+        .regex(/^(\+?[1-9]\d{6,14}|[6-9]\d{9})$/, "Enter a valid phone number (e.g. 9876543210 or +919876543210)")
+        .optional(),
+    city: z.string()
+        .min(1, { message: "City is required." })
+        .max(100, { message: "City cannot exceed 100 characters." })
+        .optional(),
     isDonar: z.boolean().default(false),
 })

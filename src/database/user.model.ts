@@ -6,8 +6,8 @@ export interface IUser{
     clerkid:string,
     fullname:string,
     email:string,
-    contactno:string,
-    city:string,
+    contactno?:string,
+    city?:string,
     isDonar:boolean
 }
 
@@ -30,12 +30,13 @@ const UserSchema = new Schema<IUser>(
         },
         contactno:{
             type:String,
-            required:true,
-            unique:true
+            required:false,
+            unique:true,
+            sparse:true
         },
         city:{
             type:String,
-            required:true
+            required:false
         },
         isDonar:{
             type:Boolean,
