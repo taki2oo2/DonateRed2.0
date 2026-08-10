@@ -155,11 +155,21 @@ export const DonorEligibilityForm = () => {
     setIsSubmitting(true);
     try {
       const res = await registerAsDonor({
-        clerkid: user.id,
-        fullname: user.fullName || user.username || "Donor",
-        email: user.primaryEmailAddress?.emailAddress || "",
+        clerkid: user?.id || "",
+        fullname: user?.fullName || user?.username || "Donor",
+        email: user?.primaryEmailAddress?.emailAddress || "",
         contactno: data.contactnumber,
         city: data.city,
+        eligibility: {
+          ageEligible: data.ageEligible,
+          weightEligible: data.weightEligible,
+          chronicIllness: data.chronicIllness,
+          medicalConditions: data.medicalConditions,
+          pregnantOrRecent: data.pregnantOrRecent,
+          breastfeeding: data.breastfeeding,
+          consentSharePhone: data.consentSharePhone,
+          consentEmergency: data.consentEmergency,
+        }
       });
 
       if (res.success) {

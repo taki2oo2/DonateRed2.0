@@ -12,7 +12,7 @@ import {
   User
 } from 'lucide-react';
 import MyButton from '@/components/MyButton';
-import { stopDonor } from '@/actions/user.action';
+import { changeDonorStatus } from '@/actions/user.action';
 
 interface AlreadyDonarProps {
   userId: string;
@@ -27,7 +27,7 @@ const AlreadyDonar = ({ userId }: AlreadyDonarProps) => {
   const handleStopBeingDonor = async () => {
     startTransition(async () => {
       try {
-        const res = await stopDonor();
+        const res = await changeDonorStatus(false);
         if (res.success) {
           toast.success("Your donor profile has been deactivated.");
           setShowConfirmStop(false);

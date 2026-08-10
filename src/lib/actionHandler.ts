@@ -10,9 +10,10 @@ type ActionOptions<T> = {
     params?: T
     schema?: ZodSchema<T>
     authorize?: boolean;
+    fullUser?:boolean;
 }
 
-export async function actionHandler<T>({ params, schema, authorize = false }: ActionOptions<T>) {
+export async function actionHandler<T>({ params, schema, authorize = false, fullUser = false}: ActionOptions<T>) {
     let validatedParams = params;
     if (schema && params) {
         try {
@@ -34,8 +35,17 @@ export async function actionHandler<T>({ params, schema, authorize = false }: Ac
         }
         userId = authObj.userId;
     }
+
+    let user: any = null;
+    if (fullUser) {
+        user = await currentUser();
+    }
     
     await dbConnect()
 
-   return validatedParams ? {validatedParams,userId}: {userId} ; 
+    return {
+        userId,
+        user,
+        validatedParams,
+    };
 }

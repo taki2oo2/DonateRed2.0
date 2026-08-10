@@ -3,7 +3,9 @@
 import dbConnect from "@/lib/moongoose";
 import { User, IUser } from "@/database/user.model";
 import handleError from "@/lib/errHandler";
-import {actionHandler} from "@/lib/actionHandler"
+import { actionHandler } from "@/lib/actionHandler";
+import { currentUser } from "@clerk/nextjs/server";
+import { UserValidationSchema, RegisterDonorValidationSchema } from "@/lib/validations";
 
 interface RegisterDonorParams {
   clerkid: string;
@@ -11,7 +13,19 @@ interface RegisterDonorParams {
   email: string;
   contactno: string;
   city: string;
+  eligibility: {
+    ageEligible: string;
+    weightEligible: string;
+    chronicIllness: string;
+    medicalConditions: string[];
+    pregnantOrRecent: string;
+    breastfeeding: string;
+    consentSharePhone: string;
+    consentEmergency: string;
+  };
 }
+
+
 
 
 export const isUserDonor = async (userId: string): Promise<ActionResponse<boolean>> => {
@@ -24,15 +38,17 @@ export const isUserDonor = async (userId: string): Promise<ActionResponse<boolea
   }
 };
 
-export const stopDonor = async (): Promise<ActionResponse<boolean>> => {
+export const changeDonorStatus = async (isDonar: boolean): Promise<ActionResponse<boolean>> => {
   try {
     const { userId } = await actionHandler<void>({ authorize: true });
-    await User.findOneAndUpdate(
+
+    const dbUser = await User.findOneAndUpdate(
       { clerkid: userId },
-      { isDonar: false },
+      { isDonar },
       { new: true }
     );
-    return { success: true, data: true, status: 200 };
+
+    return { success: true, data: dbUser?.isDonar || false, status: 200 };
   } catch (error) {
     return handleError(error, "server") as ErrorResponse;
   }
@@ -40,16 +56,36 @@ export const stopDonor = async (): Promise<ActionResponse<boolean>> => {
 
 export const registerAsDonor = async (params: RegisterDonorParams): Promise<ActionResponse<any>> => {
   try {
-    const { clerkid, fullname, email, contactno, city } = params;
+    const { userId, validatedParams } = await actionHandler<any>({
+      params,
+      schema: RegisterDonorValidationSchema,
+      authorize: true,
+    });
 
-    if (!clerkid || !fullname || !email || !contactno || !city) {
+    const { fullname, email, contactno, city, eligibility } = validatedParams || {};
+
+    if (!fullname || !email || !contactno || !city || !eligibility) {
       return { success: false, error: { message: "All fields are required to register as a donor." } };
     }
 
-    await dbConnect();
+    // Server-Side Eligibility Validation
+    const isEligible =
+      eligibility.ageEligible === "yes" &&
+      eligibility.weightEligible === "yes" &&
+      eligibility.chronicIllness === "no" &&
+      eligibility.medicalConditions.length === 1 &&
+      eligibility.medicalConditions.includes("none") &&
+      eligibility.pregnantOrRecent !== "yes" &&
+      eligibility.breastfeeding !== "yes" &&
+      eligibility.consentSharePhone === "yes" &&
+      eligibility.consentEmergency === "yes";
+
+    if (!isEligible) {
+      return { success: false, error: { message: "Based on validation, you are not eligible to register as a donor." } };
+    }
 
     const updatedUser = await User.findOneAndUpdate(
-      { clerkid },
+      { clerkid: userId },
       {
         fullname,
         email,
