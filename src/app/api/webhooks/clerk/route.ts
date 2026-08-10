@@ -25,16 +25,11 @@ export async function POST(req: NextRequest): Promise<APIResponse> {
             const lastName = user.last_name;
             const fullname = `${firstName} ${lastName}`.trim();
             
-            // Extract unsafe metadata fields passed from signup form
-            const contactno = (user.unsafe_metadata?.contactnumber as string);
-            const city = (user.unsafe_metadata?.city as string);
-
+            
             const userToValidate = {
                 clerkid,
                 fullname,
                 email,
-                contactno,
-                city,
                 isDonar: false,
             };
 
@@ -54,8 +49,7 @@ export async function POST(req: NextRequest): Promise<APIResponse> {
             const tMongooseStart = performance.now();
             const newUser = await User.findOneAndUpdate(
                 {
-                clerkid: validatedData.data.clerkid
-                        
+                clerkid: validatedData.data.clerkid       
                 },
                 validatedData.data,
                 {
