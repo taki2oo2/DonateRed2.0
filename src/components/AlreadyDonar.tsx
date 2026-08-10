@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from 'react';
+import  { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { 
@@ -12,7 +12,7 @@ import {
   User
 } from 'lucide-react';
 import MyButton from '@/components/MyButton';
-import { removeDonorStatus } from '@/actions/user.action';
+import { stopDonor } from '@/actions/user.action';
 
 interface AlreadyDonarProps {
   userId: string;
@@ -27,7 +27,7 @@ const AlreadyDonar = ({ userId }: AlreadyDonarProps) => {
   const handleStopBeingDonor = async () => {
     startTransition(async () => {
       try {
-        const res = await removeDonorStatus(userId);
+        const res = await stopDonor();
         if (res.success) {
           toast.success("Your donor profile has been deactivated.");
           setShowConfirmStop(false);

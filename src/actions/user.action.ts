@@ -24,6 +24,20 @@ export const isUserDonor = async (userId: string): Promise<ActionResponse<boolea
   }
 };
 
+export const stopDonor = async (): Promise<ActionResponse<boolean>> => {
+  try {
+    const { userId } = await actionHandler<void>({ authorize: true });
+    await User.findOneAndUpdate(
+      { clerkid: userId },
+      { isDonar: false },
+      { new: true }
+    );
+    return { success: true, data: true, status: 200 };
+  } catch (error) {
+    return handleError(error, "server") as ErrorResponse;
+  }
+};
+
 export const registerAsDonor = async (params: RegisterDonorParams): Promise<ActionResponse<any>> => {
   try {
     const { clerkid, fullname, email, contactno, city } = params;
@@ -49,26 +63,6 @@ export const registerAsDonor = async (params: RegisterDonorParams): Promise<Acti
         runValidators: true,
         setDefaultsOnInsert: true,
       }
-    );
-
-    return { success: true, data: JSON.parse(JSON.stringify(updatedUser)) };
-  } catch (error) {
-    return handleError(error, "server") as ErrorResponse;
-  }
-};
-
-export const removeDonorStatus = async (clerkid: string): Promise<ActionResponse<any>> => {
-  try {
-    if (!clerkid) {
-      return { success: false, error: { message: "Clerk ID is required." } };
-    }
-
-    await dbConnect();
-
-    const updatedUser = await User.findOneAndUpdate(
-      { clerkid },
-      { isDonar: false },
-      { new: true }
     );
 
     return { success: true, data: JSON.parse(JSON.stringify(updatedUser)) };
