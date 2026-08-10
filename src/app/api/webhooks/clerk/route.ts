@@ -53,11 +53,14 @@ export async function POST(req: NextRequest): Promise<APIResponse> {
 
             const tMongooseStart = performance.now();
             const newUser = await User.findOneAndUpdate(
-                { clerkid: validatedData.data.clerkid },
+                {
+                clerkid: validatedData.data.clerkid
+                        
+                },
                 validatedData.data,
                 {
                     upsert: true,
-                    new: true,
+                    returnDocument: "after",
                     setDefaultsOnInsert: true,
                 }
             );
