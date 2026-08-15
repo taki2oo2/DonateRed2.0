@@ -27,23 +27,26 @@ export const createcamp = async (params: CreateCampParams): Promise<ActionRespon
         const { camptitle, organizername, city, description, locationlink, startdate, enddate, starttime, endtime, image } = validatedRes.validatedParams || {};
         let imageurl = ""
         if (image) {
+            console.log("DEBUG CLOUDINARY:", {
+                cloud_name: cloudinary.config().cloud_name,
+                api_key: cloudinary.config().api_key,
+                api_secret: cloudinary.config().api_secret
+            });
             const arrayBuffer = await image.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
-            try {
-                const uploadResult = await new Promise<any>((resolve, reject) => {
-                    cloudinary.uploader.upload_stream(
-                        (error, result) => {
-                            if (error) reject(error);
-                            else resolve(result);
-                        }
-                    ).end(buffer);
-                });
-                imageurl = uploadResult.secure_url;
-            } catch (error) {
-                // logger.error({ error }, "Cloudinary upload failed");
-                handleError(error) as ErrorResponse
+            const uploadResult = await new Promise<any>((resolve, reject) => {
+                cloudinary.uploader.upload_stream(
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                ).end(buffer);
+            });
+            if(!uploadResult){
+                console.log(uploadResult)
             }
+            imageurl = uploadResult.secure_url;
 
         } else {
             throw new Error("Image file is required")
