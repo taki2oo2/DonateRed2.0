@@ -8,6 +8,7 @@ import { actionHandler } from "@/lib/actionHandler"
 import handleError from "@/lib/errHandler"
 import mongoose from "mongoose";
 import cloudinary from "@/lib/cloudinary";
+import logger from "@/lib/logger";
 
 export type CreateCampParams = z.infer<typeof PostCampFormSchema>
 
@@ -40,7 +41,8 @@ export const createcamp = async (params: CreateCampParams): Promise<ActionRespon
                 });
                 imageurl = uploadResult.secure_url;
             } catch (error) {
-                throw new Error("Failed to upload to upload to cloudinary")
+                // logger.error({ error }, "Cloudinary upload failed");
+                handleError(error) as ErrorResponse
             }
 
         } else {
