@@ -88,7 +88,7 @@ export const PostCampFormSchema = z
             message: "Please select a valid end time.",
         }),
 
-        imageurl: z.url({
+        image: z.instanceof(File, {
             message: "Please upload a valid camp banner.",
         }),
     })

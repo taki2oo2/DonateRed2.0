@@ -1,11 +1,11 @@
 "use server"
 
 import dbConnect from "@/lib/moongoose";
-import { User, IUser } from "@/database/user.model";
+import { IUser, User} from "@/database/user.model";
 import handleError from "@/lib/errHandler";
 import { actionHandler } from "@/lib/actionHandler";
-import { currentUser } from "@clerk/nextjs/server";
-import { UserValidationSchema, RegisterDonorValidationSchema } from "@/lib/validations";
+
+import { RegisterDonorValidationSchema } from "@/lib/validations";
 
 interface RegisterDonorParams {
   clerkid: string;
@@ -54,7 +54,7 @@ export const changeDonorStatus = async (isDonar: boolean): Promise<ActionRespons
   }
 };
 
-export const registerAsDonor = async (params: RegisterDonorParams): Promise<ActionResponse<any>> => {
+export const registerAsDonor = async (params: RegisterDonorParams): Promise<ActionResponse<IUser>> => {
   try {
     const { userId, validatedParams } = await actionHandler<any>({
       params,

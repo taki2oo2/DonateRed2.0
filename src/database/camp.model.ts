@@ -1,16 +1,17 @@
-import {Schema,models,model} from "mongoose"
+import {Schema,models,model, Types} from "mongoose"
 
-interface ICamp{
+export interface ICamp{
     title:string,
     organizer:string,
     description:string,
     city:string,
     locationlink:string,
-    image:string,
+    imageurl:string,
     startDate: Date
     startTime: Date
     endDate: Date
     endTime: Date
+    owner: Types.ObjectId,
 }
 
 const CampSchema = new Schema<ICamp>(
@@ -35,7 +36,7 @@ const CampSchema = new Schema<ICamp>(
             type:String,
             required:true
         },
-        image:{
+        imageurl:{
             type:String,
             required:true
         },
@@ -54,6 +55,9 @@ const CampSchema = new Schema<ICamp>(
         endTime:{
             type:Date,
             required:true
+        },
+        owner:{
+            type: Schema.Types.ObjectId, ref: "User", required: true
         }
     }
 )
