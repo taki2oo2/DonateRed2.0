@@ -29,16 +29,20 @@ export const createcamp = async (params: CreateCampParams): Promise<ActionRespon
             const arrayBuffer = await image.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
-            const uploadResult = await new Promise<any>((resolve, reject) => {
-                cloudinary.uploader.upload_stream(
-                    { folder: "donate-red-camps" },
-                    (error, result) => {
-                        if (error) reject(error);
-                        else resolve(result);
-                    }
-                ).end(buffer);
-            });
-            imageurl = uploadResult.secure_url;
+            try {
+                const uploadResult = await new Promise<any>((resolve, reject) => {
+                    cloudinary.uploader.upload_stream(
+                        (error, result) => {
+                            if (error) reject(error);
+                            else resolve(result);
+                        }
+                    ).end(buffer);
+                });
+                imageurl = uploadResult.secure_url;
+            } catch (error) {
+                throw new Error("Failed to upload to upload to cloudinary")
+            }
+
         } else {
             throw new Error("Image file is required")
         }
