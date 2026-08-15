@@ -27,11 +27,7 @@ export const createcamp = async (params: CreateCampParams): Promise<ActionRespon
         const { camptitle, organizername, city, description, locationlink, startdate, enddate, starttime, endtime, image } = validatedRes.validatedParams || {};
         let imageurl = ""
         if (image) {
-            console.log("DEBUG CLOUDINARY:", {
-                cloud_name: cloudinary.config().cloud_name,
-                api_key: cloudinary.config().api_key,
-                api_secret: cloudinary.config().api_secret
-            });
+            
             const arrayBuffer = await image.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
@@ -43,9 +39,7 @@ export const createcamp = async (params: CreateCampParams): Promise<ActionRespon
                     }
                 ).end(buffer);
             });
-            if(!uploadResult){
-                console.log(uploadResult)
-            }
+            
             imageurl = uploadResult.secure_url;
 
         } else {

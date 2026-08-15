@@ -4,6 +4,7 @@ import { useState, useTransition, useRef, useMemo, Suspense } from "react"
 import * as z from "zod"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { format } from "date-fns"
 import { MapPin, UploadCloud, Play, X, ChevronDown, Calendar as CalendarIcon } from "lucide-react"
 
@@ -18,6 +19,7 @@ import MyButton from "@/components/MyButton"
 import Search from "@/components/search/Search"
 import { createcamp } from "@/actions/camp.action"
 import { toast } from "sonner"
+import ROUTES from "@/constants/routes"
 
 type PostCampFormValues = z.infer<typeof PostCampFormSchema>
 
@@ -116,6 +118,7 @@ function DatePickerTime({
 }
 
 export default function PostCampForm() {
+    const router = useRouter()
     const [isPending, startTransition] = useTransition()
     const [previewUrl, setPreviewUrl] = useState<string | null>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -160,6 +163,7 @@ export default function PostCampForm() {
                 toast.success("Blood Donation Camp Published Successfully!")
                 form.reset()
                 setPreviewUrl(null)
+                router.push(ROUTES.DONATION_CAMP)
             } else {
                 toast.error(res.error?.message || "Failed to publish camp")
             }
