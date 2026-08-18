@@ -14,11 +14,12 @@ type Camp = {
 }
 
 type Donor = {
-  name: string
+  _id: string
+  fullname: string
   bloodGroup: string
-  location: string
+  city: string
   email: string
-  phone: string
+  contactno: string
 }
 
 type DonorCardProps = {
@@ -80,4 +81,5 @@ interface GetCampsParams extends PaginationSearchParams{
 
 interface GetDonorsParams extends PaginationSearchParams{
   city?:string;
+  bloodGroup?:string;
 }

@@ -4,7 +4,7 @@ import dbConnect from "@/lib/moongoose";
 import { IUser, User } from "@/database/user.model";
 import handleError from "@/lib/errHandler";
 import { actionHandler } from "@/lib/actionHandler";
-import { changeDonorSchema, RegisterDonorValidationSchema } from "@/lib/validations";
+import { changeDonorSchema, GetDonorsSchema, RegisterDonorValidationSchema } from "@/lib/validations";
 
 interface RegisterDonorParams {
   clerkid: string;
@@ -12,7 +12,7 @@ interface RegisterDonorParams {
   email: string;
   contactno: string;
   city: string;
-  bloodType: string;
+  bloodGroup: string;
   eligibility: {
     ageEligible: string;
     weightEligible: string;
@@ -46,7 +46,7 @@ export const changeDonorStatus = async (params: changeDonorParams): Promise<Acti
       authorize: true,
     });
 
-    if(validatedRes instanceof Error){
+    if (validatedRes instanceof Error) {
       return handleError(validatedRes) as ErrorResponse;
     }
 
@@ -77,9 +77,9 @@ export const registerAsDonor = async (params: RegisterDonorParams): Promise<Acti
       authorize: true,
     });
 
-    const { fullname, email, contactno, city, bloodType, eligibility } = validatedParams || {};
+    const { fullname, email, contactno, city, bloodGroup, eligibility } = validatedParams || {};
 
-    if (!fullname || !email || !contactno || !city || !bloodType || !eligibility) {
+    if (!fullname || !email || !contactno || !city || !bloodGroup || !eligibility) {
       return { success: false, error: { message: "All fields are required to register as a donor." } };
     }
 
@@ -106,7 +106,7 @@ export const registerAsDonor = async (params: RegisterDonorParams): Promise<Acti
         email,
         contactno,
         city,
-        bloodType,
+        bloodGroup,
         isDonar: true,
       },
       {
@@ -124,6 +124,48 @@ export const registerAsDonor = async (params: RegisterDonorParams): Promise<Acti
 };
 
 
-export const getDonors =  async() => {
-  
+export const getDonors = async (params: GetDonorsParams): Promise<ActionResponse<{
+  donors: Donor[];
+  isNext: boolean;
+  totalDonors: number;
+}>> => {
+
+  try {
+    const validatedRes = await actionHandler({
+      params,
+      schema: GetDonorsSchema,
+      authorize: false,
+    });
+
+    if (validatedRes instanceof Error) {
+      return handleError(validatedRes) as ErrorResponse;
+    }
+
+    const { city, page = 1, pageSize = 5, bloodGroup } = validatedRes.validatedParams
+
+    const skip = (Number(page) - 1) * pageSize;
+    const limit = Number(pageSize);
+
+    const filter = {
+      city: city, bloodGroup: bloodGroup,
+      isDonar: true
+    };
+
+    const totalDonors = await User.countDocuments(filter);
+
+    const donors = await User.find(filter).select('_id email fullname city contactno bloodGroup').skip(skip).limit(limit);
+
+    const isNext = totalDonors > skip + donors.length;
+
+    return {
+      success: true,
+      data: {
+        donors: JSON.parse(JSON.stringify(donors)),
+        isNext,
+        totalDonors,
+      }
+    }
+  } catch (error) {
+    return handleError(error) as ErrorResponse
+  }
 }

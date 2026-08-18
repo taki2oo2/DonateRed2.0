@@ -75,7 +75,7 @@ export const DonorEligibilityForm = () => {
       consentEmergency: undefined,
       contactnumber: "",
       city: "",
-      bloodType: undefined,
+      bloodGroup: undefined,
       agreeTerms: false,
     },
   });
@@ -95,7 +95,7 @@ export const DonorEligibilityForm = () => {
     } else if (currentStep === 4) {
       fieldsToValidate = ["pregnantOrRecent", "breastfeeding"];
     } else if (currentStep === 5) {
-      fieldsToValidate = ["consentSharePhone", "consentEmergency", "contactnumber", "city", "bloodType"];
+      fieldsToValidate = ["consentSharePhone", "consentEmergency", "contactnumber", "city", "bloodGroup"];
     }
 
     const isStepValid = await trigger(fieldsToValidate);
@@ -163,7 +163,7 @@ export const DonorEligibilityForm = () => {
         email: user?.primaryEmailAddress?.emailAddress || "",
         contactno: data.contactnumber,
         city: data.city,
-        bloodType: data.bloodType,
+        bloodGroup: data.bloodGroup,
         eligibility: {
           ageEligible: data.ageEligible,
           weightEligible: data.weightEligible,
@@ -583,7 +583,7 @@ export const DonorEligibilityForm = () => {
 
               {/* Blood Type Select Field */}
               <Controller
-                name="bloodType"
+                name="bloodGroup"
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-1.5 border-t border-zinc-800/60 pt-6" data-invalid={fieldState.invalid}>

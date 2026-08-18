@@ -167,7 +167,7 @@ export const DonorEligibilitySchema = z.object({
     city: z.string()
         .min(1, { message: "City is required." })
         .max(100, { message: "City cannot exceed 100 characters." }),
-    bloodType: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
+    bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
         message: "Please select your blood group.",
     }),
     agreeTerms: z.boolean().refine((val) => val === true, {
@@ -197,7 +197,7 @@ export const RegisterDonorValidationSchema = z.object({
         .min(1, { message: "City is required." })
         .max(100, { message: "City cannot exceed 100 characters." }),
 
-    bloodType: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
+    bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
         message: "Please select a blood group.",
     }),
 
@@ -229,8 +229,8 @@ export const RegisterDonorValidationSchema = z.object({
     })
 });
 
-export const changeDonorSchema =  z.object({
-    isDonar:z.boolean().default(false)
+export const changeDonorSchema = z.object({
+    isDonar: z.boolean().default(false)
 })
 
 
@@ -241,6 +241,13 @@ export const paginationSearchSchema = z.object({
 
 
 export const GetCampsSchmea = paginationSearchSchema.extend({
-  city:z.string().min(1,{message:"City Input is Required"})
+    city: z.string().min(1, { message: "City Input is Required" })
+});
+
+export const GetDonorsSchema = paginationSearchSchema.extend({
+    city: z.string().min(1, { message: "City Input is Required" }),
+    bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
+        message: "Please select a blood group.",
+    }),
 });
 
