@@ -122,7 +122,7 @@ export const Autocompletesearch = ({
         setPredictions([]);
         setIsOpen(false);
       }
-    }, 400);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [input, selectedAddress]);
