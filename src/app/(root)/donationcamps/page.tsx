@@ -1,12 +1,9 @@
-"use client"
-
 import MyButton from '@/components/MyButton'
 import Search from '@/components/search/Search'
 import { useRouter} from "next/navigation"
 import ROUTES from "@/constants/routes"
 import { Suspense } from 'react'
-
-import { MapPin, Loader2 } from 'lucide-react'
+import { MapPin} from 'lucide-react'
 
 
 
