@@ -1,14 +1,23 @@
 import MyButton from '@/components/MyButton'
 import Search from '@/components/search/Search'
+import CampCards from '@/components/cards/CampCards'
 import ROUTES from "@/constants/routes"
 import { Suspense } from 'react'
 import { MapPin} from 'lucide-react'
 import Link from 'next/link'
+import { getCamps } from '@/actions/camp.action'
 
+const DonationCampsPage = async({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    city?:string
+  }>
+}) => {
+  const resolvedParams = await searchParams;
+  const result = resolvedParams.city ? await getCamps(resolvedParams) : null;
+  const camps = result?.data?.camps ?? [];
 
-
-
-const DonationCampsPage = () => {
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -44,7 +53,28 @@ const DonationCampsPage = () => {
           </Suspense>
         </div>
 
-       
+        {/* Camp Cards Grid */}
+        <div className="mt-10">
+          {camps.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {camps.map((camp) => (
+                <CampCards key={camp._id} camp={camp} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <MapPin className="size-12 text-zinc-300 dark:text-zinc-700 mb-4" />
+              <h3 className="text-lg font-semibold text-zinc-700 dark:text-zinc-300">
+                No camps found
+              </h3>
+              <p className="text-sm text-zinc-500 dark:text-zinc-500 mt-1 max-w-md">
+                {resolvedParams.city
+                  ? `No donation camps found in "${resolvedParams.city}". Try searching for a different city.`
+                  : 'Search for a city above to find blood donation camps near you.'}
+              </p>
+            </div>
+          )}
+        </div>
 
       </div>
     </main>
