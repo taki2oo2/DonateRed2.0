@@ -17,6 +17,7 @@ import {
   ChevronLeft,
   Phone,
   MapPin,
+  Droplets,
   Loader2
 } from "lucide-react";
 
@@ -25,6 +26,7 @@ import { DonorEligibilitySchema } from "@/lib/validations";
 import { registerAsDonor } from "@/actions/user.action";
 import MyButton from "@/components/MyButton";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectGroup, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
 import Search from "@/components/search/Search";
 import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 
@@ -73,6 +75,7 @@ export const DonorEligibilityForm = () => {
       consentEmergency: undefined,
       contactnumber: "",
       city: "",
+      bloodType: undefined,
       agreeTerms: false,
     },
   });
@@ -92,7 +95,7 @@ export const DonorEligibilityForm = () => {
     } else if (currentStep === 4) {
       fieldsToValidate = ["pregnantOrRecent", "breastfeeding"];
     } else if (currentStep === 5) {
-      fieldsToValidate = ["consentSharePhone", "consentEmergency", "contactnumber", "city"];
+      fieldsToValidate = ["consentSharePhone", "consentEmergency", "contactnumber", "city", "bloodType"];
     }
 
     const isStepValid = await trigger(fieldsToValidate);
@@ -160,6 +163,7 @@ export const DonorEligibilityForm = () => {
         email: user?.primaryEmailAddress?.emailAddress || "",
         contactno: data.contactnumber,
         city: data.city,
+        bloodType: data.bloodType,
         eligibility: {
           ageEligible: data.ageEligible,
           weightEligible: data.weightEligible,
@@ -576,6 +580,44 @@ export const DonorEligibilityForm = () => {
                   )}
                 />
               </div>
+
+              {/* Blood Type Select Field */}
+              <Controller
+                name="bloodType"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field className="flex flex-col gap-1.5 border-t border-zinc-800/60 pt-6" data-invalid={fieldState.invalid}>
+                    <FieldLabel className="text-sm font-medium text-zinc-300" htmlFor={field.name}>
+                      Blood Group
+                    </FieldLabel>
+                    <div className="relative flex items-center w-full">
+                      <span className="absolute left-3 text-zinc-500 z-10">
+                        <Droplets className="size-4" />
+                      </span>
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger className="w-full h-10 pl-10 pr-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/30 transition-all cursor-pointer">
+                          <SelectValue placeholder="Select your blood group" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-zinc-950 border border-zinc-800">
+                          <SelectGroup>
+                            <SelectItem value="A+">A+</SelectItem>
+                            <SelectItem value="A-">A-</SelectItem>
+                            <SelectItem value="B+">B+</SelectItem>
+                            <SelectItem value="B-">B-</SelectItem>
+                            <SelectItem value="AB+">AB+</SelectItem>
+                            <SelectItem value="AB-">AB-</SelectItem>
+                            <SelectItem value="O+">O+</SelectItem>
+                            <SelectItem value="O-">O-</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} className="text-xs text-red-500 mt-1" />
+                    )}
+                  </Field>
+                )}
+              />
 
             </div>
           )}

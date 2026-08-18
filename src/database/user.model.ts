@@ -8,6 +8,7 @@ export interface IUser{
     email:string,
     contactno?:string,
     city?:string,
+    bloodType?:string,
     isDonar:boolean
 }
 
@@ -37,6 +38,11 @@ const UserSchema = new Schema<IUser>(
         city:{
             type:String,
             required:false
+        },
+        bloodType:{
+            type:String,
+            required:false,
+            enum:["A+","A-","B+","B-","AB+","AB-","O+","O-"]
         },
         isDonar:{
             type:Boolean,

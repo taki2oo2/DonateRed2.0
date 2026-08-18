@@ -167,6 +167,9 @@ export const DonorEligibilitySchema = z.object({
     city: z.string()
         .min(1, { message: "City is required." })
         .max(100, { message: "City cannot exceed 100 characters." }),
+    bloodType: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
+        message: "Please select your blood group.",
+    }),
     agreeTerms: z.boolean().refine((val) => val === true, {
         message: "You must agree to the terms of donation to proceed.",
     }),
@@ -193,6 +196,10 @@ export const RegisterDonorValidationSchema = z.object({
     city: z.string()
         .min(1, { message: "City is required." })
         .max(100, { message: "City cannot exceed 100 characters." }),
+
+    bloodType: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
+        message: "Please select a blood group.",
+    }),
 
     eligibility: z.object({
         ageEligible: z.enum(["yes", "no"], {

@@ -12,6 +12,7 @@ interface RegisterDonorParams {
   email: string;
   contactno: string;
   city: string;
+  bloodType: string;
   eligibility: {
     ageEligible: string;
     weightEligible: string;
@@ -76,9 +77,9 @@ export const registerAsDonor = async (params: RegisterDonorParams): Promise<Acti
       authorize: true,
     });
 
-    const { fullname, email, contactno, city, eligibility } = validatedParams || {};
+    const { fullname, email, contactno, city, bloodType, eligibility } = validatedParams || {};
 
-    if (!fullname || !email || !contactno || !city || !eligibility) {
+    if (!fullname || !email || !contactno || !city || !bloodType || !eligibility) {
       return { success: false, error: { message: "All fields are required to register as a donor." } };
     }
 
@@ -105,6 +106,7 @@ export const registerAsDonor = async (params: RegisterDonorParams): Promise<Acti
         email,
         contactno,
         city,
+        bloodType,
         isDonar: true,
       },
       {
@@ -120,3 +122,8 @@ export const registerAsDonor = async (params: RegisterDonorParams): Promise<Acti
     return handleError(error, "server") as ErrorResponse;
   }
 };
+
+
+export const getDonors =  async() => {
+  
+}

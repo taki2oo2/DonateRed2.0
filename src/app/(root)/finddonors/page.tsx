@@ -1,9 +1,9 @@
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import DonarSearch from '@/components/search/DonarSearch'
 import DonorCard from '@/components/cards/DonorCard'
 import { Users } from 'lucide-react'
 
-const FindDonorsPage = () => {
+const FindDonorsPage = async() => {
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300 relative overflow-hidden">
 

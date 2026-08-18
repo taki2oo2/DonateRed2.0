@@ -77,3 +77,7 @@ interface PaginationSearchParams{
 interface GetCampsParams extends PaginationSearchParams{
     city?:string;
 }
+
+interface GetDonorsParams extends PaginationSearchParams{
+  city?:string;
+}
