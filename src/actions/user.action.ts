@@ -1,11 +1,10 @@
 "use server"
 
 import dbConnect from "@/lib/moongoose";
-import { IUser, User} from "@/database/user.model";
+import { IUser, User } from "@/database/user.model";
 import handleError from "@/lib/errHandler";
 import { actionHandler } from "@/lib/actionHandler";
-
-import { RegisterDonorValidationSchema } from "@/lib/validations";
+import { changeDonorSchema, RegisterDonorValidationSchema } from "@/lib/validations";
 
 interface RegisterDonorParams {
   clerkid: string;
@@ -38,9 +37,24 @@ export const isUserDonor = async (userId: string): Promise<ActionResponse<boolea
   }
 };
 
-export const changeDonorStatus = async (isDonar: boolean): Promise<ActionResponse<boolean>> => {
+export const changeDonorStatus = async (params: changeDonorParams): Promise<ActionResponse<boolean>> => {
   try {
-    const { userId } = await actionHandler<void>({ authorize: true });
+    const validatedRes = await actionHandler({
+      params,
+      schema: changeDonorSchema,
+      authorize: true,
+    });
+
+    if(validatedRes instanceof Error){
+      return handleError(validatedRes) as ErrorResponse;
+    }
+
+    const { isDonar } = validatedRes.validatedParams;
+    const userId = validatedRes.userId;
+
+    if (!userId) {
+      return { success: false, error: { message: "Unauthorized. User ID not found." } };
+    }
 
     const dbUser = await User.findOneAndUpdate(
       { clerkid: userId },

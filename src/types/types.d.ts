@@ -57,6 +57,9 @@ type APIErrorResponse = NextResponse<ErrorResponse>
 type APISuccessResponse<T> = NextResponse<SuccessResponse<T>>
 type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 
+type changeDonorParams = {
+  isDonar:boolean;
+}
 type User = {
   clerkid: string;
   fullname: string;

@@ -222,6 +222,10 @@ export const RegisterDonorValidationSchema = z.object({
     })
 });
 
+export const changeDonorSchema =  z.object({
+    isDonar:z.boolean().default(false)
+})
+
 
 export const paginationSearchSchema = z.object({
     page: z.number().int().positive().default(1),
@@ -232,3 +236,4 @@ export const paginationSearchSchema = z.object({
 export const GetCampsSchmea = paginationSearchSchema.extend({
   city:z.string().min(1,{message:"City Input is Required"})
 });
+

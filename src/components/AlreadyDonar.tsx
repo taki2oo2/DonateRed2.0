@@ -27,7 +27,7 @@ const AlreadyDonar = ({ userId }: AlreadyDonarProps) => {
   const handleStopBeingDonor = async () => {
     startTransition(async () => {
       try {
-        const res = await changeDonorStatus(false);
+        const res = await changeDonorStatus({ isDonar: false });
         if (res.success) {
           toast.success("Your donor profile has been deactivated.");
           setShowConfirmStop(false);
