@@ -6,6 +6,8 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
+import Link from "next/link"
+import ROUTES from "@/constants/routes"
 
 const UserAvatar = () => {
   const { isLoaded, isSignedIn, user } = useUser()
@@ -19,6 +21,7 @@ const UserAvatar = () => {
   }
 
   return (
+    <Link href = {ROUTES.PROFILE(user.id)}>  
     <Avatar className="size-9 ring-2 ring-red-500/20 hover:ring-red-500/40 transition-all cursor-pointer">
       <AvatarImage
         src={user.imageUrl}
@@ -28,6 +31,7 @@ const UserAvatar = () => {
         {user.firstName?.[0]}{user.lastName?.[0]}
       </AvatarFallback>
     </Avatar>
+    </Link>
   )
 }
 
