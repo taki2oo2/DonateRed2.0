@@ -129,7 +129,7 @@ export const getCamps = async (
             return handleError(validatedRes) as ErrorResponse;
         }
         
-        const {city , page = 1, pageSize = 5, } = validatedRes.validatedParams
+        const {city , page = 1, pageSize = 6, } = validatedRes.validatedParams
 
         const skip = (Number(page) - 1) * pageSize;
         const limit = Number(pageSize);

@@ -16,14 +16,14 @@ type Camp = {
 type Donor = {
   _id: string
   fullname: string
-  bloodGroup: string
-  city: string
+  bloodGroup?: string
+  city?: string
   email: string
-  contactno: string
+  contactno?: string
 }
 
 type DonorCardProps = {
-  donor?: Donor
+  donor: Donor
 }
 
 type PlaceData = {
@@ -43,13 +43,13 @@ type BloodBankCardProps = {
 }
 
 type ActionResponse<T = null> = {
-  success: boolean;     
-  data?: T;             
-  error?: {             
-    message: string;   
-    details?: Record<string, string[]>; 
+  success: boolean;
+  data?: T;
+  error?: {
+    message: string;
+    details?: Record<string, string[]>;
   },
-  status?: number       
+  status?: number
 }
 
 type ErrorResponse = ActionResponse<undefined> & { success: false };
@@ -59,7 +59,7 @@ type APISuccessResponse<T> = NextResponse<SuccessResponse<T>>
 type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 
 type changeDonorParams = {
-  isDonar:boolean;
+  isDonar: boolean;
 }
 type User = {
   clerkid: string;
@@ -70,16 +70,16 @@ type User = {
   isDonar: boolean;
 }
 
-interface PaginationSearchParams{
-  page?:number;
-  pageSize?:number;
+interface PaginationSearchParams {
+  page?: number;
+  pageSize?: number;
 }
 
-interface GetCampsParams extends PaginationSearchParams{
-    city?:string;
+interface GetCampsParams extends PaginationSearchParams {
+  city?: string;
 }
 
-interface GetDonorsParams extends PaginationSearchParams{
-  city?:string;
-  bloodGroup?:string;
+interface GetDonorsParams extends PaginationSearchParams {
+  city?: string;
+  bloodGroup?: string;
 }

@@ -3,12 +3,14 @@ import DonarSearch from '@/components/search/DonarSearch'
 import DonorCardsList from '@/components/cards/DonorCardsList'
 import { DonorCardsListSkeleton } from '@/components/cards/DonorCardSkeleton'
 
+
 const FindDonorsPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{
     city?: string
     bloodGroup?: string
+    page?: string
   }>
 }) => {
   const resolvedParams = await searchParams
@@ -73,7 +75,7 @@ const FindDonorsPage = async ({
 
         {/* ============ SECTION 2: RESULTS (SUSPENSE STREAMED) ============ */}
         <Suspense
-          key={`${resolvedParams.city || ''}-${resolvedParams.bloodGroup || ''}`}
+          key={`${resolvedParams.city || ''}-${resolvedParams.bloodGroup || ''}-${resolvedParams.page || '1'}`}
           fallback={
             <div className="space-y-6 pt-4">
               <div className="h-7 w-48 bg-zinc-200 dark:bg-zinc-800 rounded-md animate-pulse" />
@@ -84,9 +86,12 @@ const FindDonorsPage = async ({
           <DonorCardsList
             city={resolvedParams.city}
             bloodGroup={resolvedParams.bloodGroup}
+            page={resolvedParams.page ? Number(resolvedParams.page) : 1}
           />
         </Suspense>
+
       </div>
+      
     </main>
   )
 }

@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
     ],
   },
   serverExternalPackages: ["pino", "pino-pretty"],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
+  },
 };
 
 export default nextConfig;

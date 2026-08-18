@@ -1,20 +1,24 @@
 import { getDonors } from '@/actions/user.action'
 import DonorCard from '@/components/cards/DonorCard'
 import { SearchX, Users } from 'lucide-react'
+import Pagination from '../Pagination'
 
 interface DonorCardsListProps {
   city?: string
   bloodGroup?: string
+  page?: number
 }
 
-const DonorCardsList = async ({ city, bloodGroup }: DonorCardsListProps) => {
+const DonorCardsList = async ({ city, bloodGroup, page = 1 }: DonorCardsListProps) => {
   const result = await getDonors({
     city,
     bloodGroup,
+    page,
   })
 
   const donors = result?.success ? result.data?.donors ?? [] : []
   const totalDonors = result?.success ? result.data?.totalDonors ?? 0 : 0
+  const isNext = result?.success ? result.data?.isNext ?? false : false
 
   return (
     <section className="space-y-6 pt-4">
@@ -30,9 +34,12 @@ const DonorCardsList = async ({ city, bloodGroup }: DonorCardsListProps) => {
 
       <div className="space-y-4">
         {donors.length > 0 ? (
-          donors.map((donor) => (
-            <DonorCard key={donor._id} donor={donor} />
-          ))
+          <>
+            {donors.map((donor) => (
+              <DonorCard key={donor._id} donor={donor} />
+            ))}
+            <Pagination page={page} isNext={isNext} />
+          </>
         ) : (
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <div className="flex size-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 mb-4">

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en" className={cn(inter.className, "font-sans scroll-smooth", "font-sans", inter.variable)} suppressHydrationWarning>
-      <body>
+      <body >
         <ClerkProvider>
         <ThemeProvider
           attribute="class"
