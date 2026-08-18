@@ -1,4 +1,3 @@
-import { BloodBankCardProps } from '@/types/types'
 import { MapPin, Phone, ExternalLink, Building2 } from 'lucide-react'
 
 

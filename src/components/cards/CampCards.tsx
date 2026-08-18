@@ -1,7 +1,6 @@
 import Image from "next/image"
 import { Calendar, Clock, Map } from 'lucide-react'
 import { format } from "date-fns"
-import { Camp } from "@/types/types";
 
 const CampCards = ({ camp }: { camp: Camp }) => {
     // Determine status dynamically

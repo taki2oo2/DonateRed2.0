@@ -30,7 +30,7 @@ type PlaceData = {
   formatted_address: string;
 }
 
-export type BloodBank = {
+type BloodBank = {
   name?: string | null
   address?: string | null
   contactNo?: string | null

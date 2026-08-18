@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import { Camp, ICamp } from "@/database/camp.model";
+import { Camp as CampModel, ICamp } from "@/database/camp.model";
 import { User } from "@/database/user.model";
 import { GetCampsSchmea, PostCampFormSchema } from "@/lib/validations";
 import { actionHandler } from "@/lib/actionHandler";
@@ -9,7 +9,6 @@ import handleError from "@/lib/errHandler";
 import mongoose from "mongoose";
 import cloudinary from "@/lib/cloudinary";
 import logger from "@/lib/logger";
-import { ErrorResponse, ActionResponse, GetCampsParams, Camp as CampType } from "@/types/types";
 
 export type CreateCampParams = z.infer<typeof PostCampFormSchema>;
 
@@ -76,7 +75,7 @@ export const createcamp = async (
                 throw new Error("User profile not found. Please log in first.");
             }
 
-            const [newcamp] = await Camp.create(
+            const [newcamp] = await CampModel.create(
                 [
                     {
                         title: camptitle,
@@ -114,7 +113,7 @@ export const getCamps = async (
     params: GetCampsParams
 ): Promise<
     ActionResponse<{
-        camps: CampType[];
+        camps: Camp[];
         isNext: boolean;
         totalResults: number;
     }>
@@ -135,9 +134,9 @@ export const getCamps = async (
         const skip = (Number(page) - 1) * pageSize;
         const limit = Number(pageSize);
 
-        const totalCamps = await Camp.countDocuments({city:city});
+        const totalCamps = await CampModel.countDocuments({city:city});
 
-        const camps = await Camp.find({city:city}).skip(skip).limit(limit);
+        const camps = await CampModel.find({city:city}).skip(skip).limit(limit);
 
         const isNext = totalCamps > skip + camps.length;
 
