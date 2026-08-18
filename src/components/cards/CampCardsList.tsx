@@ -9,7 +9,7 @@ interface CampCardsListProps {
 }
 
 const CampCardsList = async ({ city, page = 1 }: CampCardsListProps) => {
-    const result = city ? await getCamps({ city, page }) : null;
+    const result = city ? await getCamps({ city, page, pageSize: 6}) : null;
     const camps = result?.data?.camps ?? [];
     const isNext = result?.data?.isNext ?? false;
 
