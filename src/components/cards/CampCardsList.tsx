@@ -1,17 +1,27 @@
 import CampCards from '@/components/cards/CampCards'
 import { getCamps } from '@/actions/camp.action'
 import { MapPin } from 'lucide-react'
+import Pagination from '@/components/Pagination'
 
-const CampCardsList = async ({ city }: { city?: string }) => {
-    const result = city ? await getCamps({ city }) : null;
+interface CampCardsListProps {
+    city?: string
+    page?: number
+}
+
+const CampCardsList = async ({ city, page = 1 }: CampCardsListProps) => {
+    const result = city ? await getCamps({ city, page }) : null;
     const camps = result?.data?.camps ?? [];
+    const isNext = result?.data?.isNext ?? false;
 
     if (camps.length > 0) {
         return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {camps.map((camp) => (
-                    <CampCards key={camp._id} camp={camp} />
-                ))}
+            <div className="space-y-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {camps.map((camp) => (
+                        <CampCards key={camp._id} camp={camp} />
+                    ))}
+                </div>
+                <Pagination page={page} isNext={isNext} />
             </div>
         )
     }

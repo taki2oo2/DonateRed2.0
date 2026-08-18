@@ -11,10 +11,12 @@ const DonationCampsPage = async({
   searchParams,
 }: {
   searchParams: Promise<{
-    city?:string
+    city?: string
+    page?: string
   }>
 }) => {
   const resolvedParams = await searchParams;
+  const currentPage = resolvedParams.page ? Number(resolvedParams.page) : 1;
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
@@ -53,8 +55,11 @@ const DonationCampsPage = async({
 
         {/* Camp Cards Grid */}
         <div className="mt-10">
-          <Suspense fallback={<CampCardsGridSkeleton />}>
-            <CampCardsList city={resolvedParams.city} />
+          <Suspense 
+            key={`${resolvedParams.city || ''}-${currentPage}`}
+            fallback={<CampCardsGridSkeleton />}
+          >
+            <CampCardsList city={resolvedParams.city} page={currentPage} />
           </Suspense>
         </div>
 
