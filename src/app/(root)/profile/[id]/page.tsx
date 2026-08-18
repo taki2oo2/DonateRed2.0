@@ -5,7 +5,7 @@ const page = async({
 }: {
   params: Promise<{ slug: string }>
 }) => {
-    const slug = await params
+    const {slug} = await params
   return (
     <div>{`${slug}`}</div>
   )
