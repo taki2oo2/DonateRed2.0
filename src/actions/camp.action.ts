@@ -134,9 +134,11 @@ export const getCamps = async (
         const skip = (Number(page) - 1) * pageSize;
         const limit = Number(pageSize);
 
-        const totalCamps = await CampModel.countDocuments({city:city});
+        const filter = { city: city, endTime: { $gte: new Date() } };
 
-        const camps = await CampModel.find({city:city}).skip(skip).limit(limit);
+        const totalCamps = await CampModel.countDocuments(filter);
+
+        const camps = await CampModel.find(filter).skip(skip).limit(limit);
 
         const isNext = totalCamps > skip + camps.length;
 
