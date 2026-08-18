@@ -71,7 +71,6 @@ export const Autocompletesearch = ({
     if (selectedAddress && val !== selectedAddress) {
       setSelectedAddress(null);
     }
-    if (onSelectAddress) onSelectAddress(val);
   };
 
   const handleSelect = (place: PlaceData) => {
@@ -87,18 +86,23 @@ export const Autocompletesearch = ({
   const handleBlur = () => {
     setTimeout(() => {
       setIsOpen(false);
+      // If the user hasn't selected a valid suggestion, reset input
+      if (!selectedAddress) {
+        setInput(value || "");
+        if (onSelectAddress) onSelectAddress(value || "");
+      }
     }, 200);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      // Only allow selecting from predictions, never raw text
       if (predictions.length > 0 && !selectedAddress) {
         handleSelect(predictions[0]);
-      } else {
-        setIsOpen(false);
-        updateUrlQuery(input);
       }
+      // If no predictions or already selected, just close — don't push raw input
+      setIsOpen(false);
     }
   };
 
