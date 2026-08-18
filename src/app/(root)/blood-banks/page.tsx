@@ -8,7 +8,7 @@ import BloodBankCard from "@/components/cards/BloodBankCard";
 
 type Props = {
   searchParams: Promise<{
-    query?: string;
+    city?: string;
   }>;
 };
 
@@ -19,9 +19,11 @@ const BloodBanksPage = async ({ searchParams }: Props) => {
   }
 
 
-  const { query } = await searchParams;
+  const { city } = await searchParams;
   const res: ActionResponse<BloodBank[]> | null =
-    query && isAuthenticated ? await callSearchText(query) : null;
+    city && isAuthenticated ? await callSearchText(city) : null;
+
+
 
   const bloodBanks: BloodBank[] = res?.success ? (res.data ?? []) : [];
 
@@ -56,11 +58,11 @@ const BloodBanksPage = async ({ searchParams }: Props) => {
 
         {/* Results Section */}
         <section className="space-y-6 pt-4">
-          <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800/80 pb-4">
+          <div className="flex items-center justify-between bordecityorder-zinc-200 dark:border-zinc-800/80 pb-4">
             <div className="flex items-center gap-2">
               <Building2 className="size-5 text-[#FB2C36]" />
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white">
-                {query ? `Blood Banks in "${query}"` : "Nearby Blood Banks"}
+                {city ? `Blood Banks in "${city}"` : "Nearby Blood Banks"}
               </h2>
             </div>
             {bloodBanks.length > 0 && (
@@ -75,9 +77,9 @@ const BloodBanksPage = async ({ searchParams }: Props) => {
               bloodBanks.map((bank, index) => (
                 <BloodBankCard key={bank.link || index} bloodBank={bank} />
               ))
-            ) : query ? (
+            ) : city ? (
               <div className="text-center py-12 text-zinc-500 dark:text-zinc-400 text-sm">
-                {res?.error?.message ?? `No blood banks found for "${query}". Try searching another city.`}
+                {res?.error?.message ?? `No blood banks found for "${city}". Try searching another city.`}
               </div>
             ) : (
               <div className="text-center py-12 text-zinc-500 dark:text-zinc-400 text-sm">
