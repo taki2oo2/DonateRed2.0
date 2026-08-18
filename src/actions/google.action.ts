@@ -13,7 +13,7 @@ export const autocomplete = async (
   input: string
 ): Promise<ActionResponse<PlaceData[]>> => {
   if (!input.trim()) {
-    return { success: true, data: [] };
+    return { success: true, error:{message:"Input city is required"}};
   }
 
   const regionCode = "IN";

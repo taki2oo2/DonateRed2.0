@@ -221,3 +221,14 @@ export const RegisterDonorValidationSchema = z.object({
         }),
     })
 });
+
+
+export const paginationSearchSchema = z.object({
+    page: z.number().int().positive().default(1),
+    pageSize: z.number().int().positive().default(10),
+})
+
+
+export const GetCampsSchmea = paginationSearchSchema.extend({
+  city:z.string().min(1,{message:"City Input is Required"})
+});

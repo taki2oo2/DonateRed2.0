@@ -1,15 +1,7 @@
+import { BloodBankCardProps } from '@/types/types'
 import { MapPin, Phone, ExternalLink, Building2 } from 'lucide-react'
 
-export type BloodBank = {
-  name?: string | null
-  address?: string | null
-  contactNo?: string | null
-  link?: string | null
-}
 
-type BloodBankCardProps = {
-  bloodBank?: BloodBank
-}
 
 const BloodBankCard = ({ bloodBank }: BloodBankCardProps) => {
   const {

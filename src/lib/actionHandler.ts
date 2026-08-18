@@ -7,13 +7,13 @@ import { auth } from '@clerk/nextjs/server'
 import { currentUser } from "@clerk/nextjs/server"
 
 type ActionOptions<T> = {
-    params?: T
-    schema?: ZodSchema<T>
+    params: T
+    schema: ZodSchema<T>
     authorize?: boolean;
-    fullUser?:boolean;
+    fullUser?: boolean;
 }
 
-export async function actionHandler<T>({ params, schema, authorize = false, fullUser = false}: ActionOptions<T>) {
+export async function actionHandler<T>({ params, schema, authorize = false, fullUser = false }: ActionOptions<T>) {
     let validatedParams = params;
     if (schema && params) {
         try {
@@ -40,7 +40,7 @@ export async function actionHandler<T>({ params, schema, authorize = false, full
     if (fullUser) {
         user = await currentUser();
     }
-    
+
     await dbConnect()
 
     return {

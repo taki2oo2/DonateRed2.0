@@ -53,7 +53,7 @@ export const Autocompletesearch = ({
     if (queryValue.trim()) {
       const newUrl = formUrlQuery({
         params: searchParams.toString(),
-        key: "query",
+        key: "city",
         value: queryValue.trim(),
       });
       router.push(newUrl, { scroll: false });

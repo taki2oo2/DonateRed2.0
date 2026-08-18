@@ -1,12 +1,16 @@
 type Camp = {
-  id: number;
+  _id: string;
   title: string;
   organizer: string;
-  date: string;
-  time: string;
-  desc: string;
-  status: string;
-  imageUrl: string;
+  description: string;
+  city: string;
+  locationlink: string;
+  imageurl: string;
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
+  owner: string;
 }
 
 type Donor = {
@@ -26,11 +30,15 @@ type PlaceData = {
   formatted_address: string;
 }
 
-type BloodBank = {
-  name:string;
-  address:string;
-  contactNo:string;
-  link:string;
+export type BloodBank = {
+  name?: string | null
+  address?: string | null
+  contactNo?: string | null
+  link?: string | null
+}
+
+type BloodBankCardProps = {
+  bloodBank?: BloodBank
 }
 
 type ActionResponse<T = null> = {
@@ -56,4 +64,13 @@ type User = {
   contactno: string;
   city: string;
   isDonar: boolean;
+}
+
+interface PaginationSearchParams{
+  page?:number;
+  pageSize?:number;
+}
+
+interface GetCampsParams extends PaginationSearchParams{
+    city?:string;
 }

@@ -1,18 +1,41 @@
 import Image from "next/image"
 import { Calendar, Clock, Map } from 'lucide-react'
-
-
+import { format } from "date-fns"
+import { Camp } from "@/types/types";
 
 const CampCards = ({ camp }: { camp: Camp }) => {
+    // Determine status dynamically
+    const now = new Date();
+    const start = new Date(camp.startTime);
+    const end = new Date(camp.endTime);
+    let status = "UPCOMING";
+    if (now >= start && now <= end) {
+        status = "LIVE NOW";
+    } else if (now > end) {
+        status = "COMPLETED";
+    }
+
+    // Format date range
+    const startDateObj = new Date(camp.startDate);
+    const endDateObj = new Date(camp.endDate);
+    const startDateFormatted = format(startDateObj, "MMM dd, yyyy");
+    const endDateFormatted = format(endDateObj, "MMM dd, yyyy");
+    const dateRange = startDateFormatted === endDateFormatted 
+        ? startDateFormatted 
+        : `${format(startDateObj, "MMM dd")} - ${endDateFormatted}`;
+
+    // Format time range
+    const timeRange = `${format(new Date(camp.startTime), "hh:mm a")} - ${format(new Date(camp.endTime), "hh:mm a")}`;
+
     return (
         <div
             className="bg-zinc-50/50 dark:bg-[#111114]/80 border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 backdrop-blur-xl flex flex-col h-full"
         >
             {/* Card Image Wrapper */}
             <div className="relative h-48 w-full bg-zinc-100 dark:bg-zinc-900">
-                {camp.imageUrl && (
+                {camp.imageurl && (
                     <Image
-                        src={camp.imageUrl}
+                        src={camp.imageurl}
                         alt={camp.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -20,11 +43,13 @@ const CampCards = ({ camp }: { camp: Camp }) => {
                     />
                 )}
                 {/* Status Badge */}
-                <span className={`absolute left-4 top-4 px-2.5 py-1 text-[10px] font-bold rounded-md tracking-wider uppercase ${camp.status === 'LIVE NOW'
+                <span className={`absolute left-4 top-4 px-2.5 py-1 text-[10px] font-bold rounded-md tracking-wider uppercase ${status === 'LIVE NOW'
                     ? 'bg-[#FB2C36] text-white shadow-lg shadow-red-500/20'
+                    : status === 'COMPLETED'
+                    ? 'bg-zinc-300 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400'
                     : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'
                     }`}>
-                    {camp.status}
+                    {status}
                 </span>
             </div>
 
@@ -41,16 +66,16 @@ const CampCards = ({ camp }: { camp: Camp }) => {
                 <div className="mt-4 space-y-2 text-xs text-zinc-500 dark:text-zinc-400">
                     <div className="flex items-center gap-2">
                         <Calendar className="size-4 text-[#FB2C36]/80 dark:text-[#FB2C36]" />
-                        <span>{camp.date}</span>
+                        <span>{dateRange}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <Clock className="size-4 text-[#FB2C36]/80 dark:text-[#FB2C36]" />
-                        <span>{camp.time}</span>
+                        <span>{timeRange}</span>
                     </div>
                 </div>
 
                 <p className="mt-4 text-xs leading-relaxed text-zinc-500 dark:text-[#ffb4ab]/90 flex-1">
-                    {camp.desc}
+                    {camp.description}
                 </p>
 
                 {/* Card Button */}

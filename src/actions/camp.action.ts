@@ -1,18 +1,21 @@
-"use server"
+"use server";
 
-import * as z from "zod"
-import { Camp, ICamp } from "@/database/camp.model"
-import { User } from "@/database/user.model"
-import { PostCampFormSchema } from "@/lib/validations"
-import { actionHandler } from "@/lib/actionHandler"
-import handleError from "@/lib/errHandler"
+import * as z from "zod";
+import { Camp, ICamp } from "@/database/camp.model";
+import { User } from "@/database/user.model";
+import { GetCampsSchmea, PostCampFormSchema } from "@/lib/validations";
+import { actionHandler } from "@/lib/actionHandler";
+import handleError from "@/lib/errHandler";
 import mongoose from "mongoose";
 import cloudinary from "@/lib/cloudinary";
 import logger from "@/lib/logger";
+import { ErrorResponse, ActionResponse, GetCampsParams, Camp as CampType } from "@/types/types";
 
-export type CreateCampParams = z.infer<typeof PostCampFormSchema>
+export type CreateCampParams = z.infer<typeof PostCampFormSchema>;
 
-export const createcamp = async (params: CreateCampParams): Promise<ActionResponse<ICamp>> => {
+export const createcamp = async (
+    params: CreateCampParams,
+): Promise<ActionResponse<ICamp>> => {
     try {
         const validatedRes = await actionHandler<any>({
             params,
@@ -24,29 +27,46 @@ export const createcamp = async (params: CreateCampParams): Promise<ActionRespon
             return handleError(validatedRes) as ErrorResponse;
         }
 
-        const { camptitle, organizername, city, description, locationlink, startdate, enddate, starttime, endtime, image } = validatedRes.validatedParams || {};
-        let imageurl = ""
+        const {
+            camptitle,
+            organizername,
+            city,
+            description,
+            locationlink,
+            startdate,
+            enddate,
+            starttime,
+            endtime,
+            image,
+        } = validatedRes.validatedParams 
+        let imageurl = "";
         if (image) {
-            
-            const arrayBuffer = await image.arrayBuffer();
-            const buffer = Buffer.from(arrayBuffer);
+            try {
+                const arrayBuffer = await image.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
 
-            const uploadResult = await new Promise<any>((resolve, reject) => {
-                cloudinary.uploader.upload_stream(
-                    (error, result) => {
-                        if (error) reject(error);
-                        else resolve(result);
-                    }
-                ).end(buffer);
-            });
-            
-            imageurl = uploadResult.secure_url;
+                const uploadResult = await new Promise<any>((resolve, reject) => {
+                    cloudinary.uploader
+                        .upload_stream((error, result) => {
+                            if (error) reject(error);
+                            else resolve(result);
+                        })
+                        .end(buffer);
+                });
 
+                imageurl = uploadResult.secure_url;
+                if (!imageurl) {
+                    logger.error("image upload to cloudinary failed, No Url recived");
+                    throw new Error("Image Upload failed please try again");
+                }
+            } catch (error) {
+                throw error;
+            }
         } else {
-            throw new Error("Image file is required")
+            throw new Error("Image file is required");
         }
 
-        const userID = validatedRes.userId
+        const userID = validatedRes.userId;
         const session = await mongoose.startSession();
         session.startTransaction();
 
@@ -70,11 +90,12 @@ export const createcamp = async (params: CreateCampParams): Promise<ActionRespon
                         endDate: new Date(enddate),
                         endTime: new Date(`${enddate}T${endtime}`),
                         owner: userDoc._id,
-                    }
+                    },
                 ],
-                { session }
+                { session },
             );
-
+            if (!newcamp)
+                throw new Error("Failed to create a new camp post. Please Try Again");
             await session.commitTransaction();
             session.endSession();
 
@@ -87,4 +108,49 @@ export const createcamp = async (params: CreateCampParams): Promise<ActionRespon
     } catch (error) {
         return handleError(error) as ErrorResponse;
     }
-}
+};
+
+export const getCamps = async (
+    params: GetCampsParams
+): Promise<
+    ActionResponse<{
+        camps: CampType[];
+        isNext: boolean;
+        totalResults: number;
+    }>
+> => {
+    try {
+        const validatedRes = await actionHandler({
+            params,
+            schema: GetCampsSchmea,
+            authorize: false,
+        });
+
+        if (validatedRes instanceof Error) {
+            return handleError(validatedRes) as ErrorResponse;
+        }
+        
+        const {city , page = 1, pageSize = 5, } = validatedRes.validatedParams
+
+        const skip = (Number(page) - 1) * pageSize;
+        const limit = Number(pageSize);
+
+        const totalCamps = await Camp.countDocuments({city:city});
+
+        const camps = await Camp.find({city:city}).skip(skip).limit(limit);
+
+        const isNext = totalCamps > skip + camps.length;
+
+
+        return {
+            success: true,
+            data: {
+                camps: JSON.parse(JSON.stringify(camps)),
+                isNext,
+                totalResults:totalCamps,
+            },
+        };
+    } catch (error) {
+       return handleError(error) as ErrorResponse
+    }
+};
