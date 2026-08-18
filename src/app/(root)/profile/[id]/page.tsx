@@ -3,11 +3,11 @@
 const page = async({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ id: string }>
 }) => {
-    const {slug} = await params
+    const {id} = await params
   return (
-    <div>{`${slug}`}</div>
+    <div>{`${id}`}</div>
   )
 }
 
