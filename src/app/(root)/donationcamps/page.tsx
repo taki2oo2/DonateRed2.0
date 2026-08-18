@@ -1,15 +1,14 @@
 import MyButton from '@/components/MyButton'
 import Search from '@/components/search/Search'
-import { useRouter} from "next/navigation"
 import ROUTES from "@/constants/routes"
 import { Suspense } from 'react'
 import { MapPin} from 'lucide-react'
+import Link from 'next/link'
 
 
 
 
 const DonationCampsPage = () => {
-  const router = useRouter()
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -25,12 +24,13 @@ const DonationCampsPage = () => {
             </p>
           </div>
           <div className="shrink-0 pt-2">
+            <Link href = {ROUTES.POST_CAMP}>
             <MyButton 
-              onClick={() => router.push(ROUTES.POST_CAMP)} 
               className="w-full sm:w-auto h-11 bg-[#FB2C36] hover:bg-[#E7000B] text-white font-semibold px-6 rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap"
             >
               + Post a New Camp
             </MyButton>
+            </Link>
           </div>
         </div>
 
