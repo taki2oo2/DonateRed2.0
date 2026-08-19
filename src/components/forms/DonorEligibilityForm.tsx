@@ -29,6 +29,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
 import Search from "@/components/search/Search";
 import { Field, FieldLabel, FieldError } from "@/components/ui/field";
+import ROUTES from "@/constants/routes";
 
 type DonorEligibilityFormValues = z.infer<typeof DonorEligibilitySchema>;
 
@@ -178,7 +179,7 @@ export const DonorEligibilityForm = () => {
 
       if (res.success) {
         toast.success("Congratulations! You have registered successfully as a donor.");
-        router.push("/donate");
+        router.push(ROUTES.DONATE);
       } else {
         toast.error(res.error?.message || "Something went wrong. Please try again.");
       }
