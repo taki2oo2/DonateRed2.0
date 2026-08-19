@@ -4,7 +4,8 @@ import dbConnect from "@/lib/moongoose";
 import { IUser, User } from "@/database/user.model";
 import handleError from "@/lib/errHandler";
 import { actionHandler } from "@/lib/actionHandler";
-import { changeDonorSchema, GetDonorsSchema, RegisterDonorValidationSchema } from "@/lib/validations";
+import { changeDonorSchema, GetDonorsSchema, RegisterDonorValidationSchema, GetUserDetailSchema } from "@/lib/validations";
+import { NotFoundError } from "@/lib/errors";
 
 interface RegisterDonorParams {
   clerkid: string;
@@ -164,6 +165,31 @@ export const getDonors = async (params: GetDonorsParams): Promise<ActionResponse
         isNext,
         totalDonors,
       }
+    }
+  } catch (error) {
+    return handleError(error) as ErrorResponse
+  }
+}
+
+
+export const getUerInfo = async (params: GetUserDetailsParams): Promise<ActionResponse<User>> => {
+  try {
+    const validatedRes = await actionHandler({params, schema:GetUserDetailSchema, authorize: true})
+    if (validatedRes instanceof Error) {
+      return handleError(validatedRes) as ErrorResponse;
+    }
+    const {userId} = validatedRes
+    if(!userId){
+      throw new Error("user id not found")
+    }
+    const user = await User.findOne({ clerkid: userId }).lean();
+    if(!user){
+      throw new NotFoundError("User not found Try logging in again")
+    }
+    return {
+      success:true,
+      data:JSON.parse(JSON.stringify(user)),
+      status:200
     }
   } catch (error) {
     return handleError(error) as ErrorResponse

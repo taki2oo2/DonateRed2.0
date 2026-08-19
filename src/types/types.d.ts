@@ -61,12 +61,14 @@ type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 type changeDonorParams = {
   isDonar: boolean;
 }
+
 type User = {
   clerkid: string;
   fullname: string;
   email: string;
   contactno: string;
   city: string;
+  bloodGroup?: string;
   isDonar: boolean;
 }
 
@@ -82,4 +84,8 @@ interface GetCampsParams extends PaginationSearchParams {
 interface GetDonorsParams extends PaginationSearchParams {
   city?: string;
   bloodGroup?: string;
+}
+
+interface GetUserDetailsParams {
+  clerkid:string;
 }

@@ -251,3 +251,8 @@ export const GetDonorsSchema = paginationSearchSchema.extend({
     }),
 });
 
+
+export const GetUserDetailSchema =  z.object({
+    clerkid: z.string().min(1, { message: "ID is Required" })
+})
+
