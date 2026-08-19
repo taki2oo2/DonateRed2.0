@@ -3,12 +3,13 @@
 import * as z from "zod";
 import { Camp as CampModel, ICamp } from "@/database/camp.model";
 import { User } from "@/database/user.model";
-import { GetCampsSchmea, PostCampFormSchema } from "@/lib/validations";
+import { GetCampsSchmea, GetUserCampsSchema, PostCampFormSchema } from "@/lib/validations";
 import { actionHandler } from "@/lib/actionHandler";
 import handleError from "@/lib/errHandler";
 import mongoose from "mongoose";
 import cloudinary from "@/lib/cloudinary";
 import logger from "@/lib/logger";
+import { revalidatePath } from "next/cache";
 
 export type CreateCampParams = z.infer<typeof PostCampFormSchema>;
 
@@ -98,6 +99,9 @@ export const createcamp = async (
             await session.commitTransaction();
             session.endSession();
 
+            revalidatePath("/donationcamps");
+            revalidatePath(`/profile/${userID}`);
+
             return { success: true, data: JSON.parse(JSON.stringify(newcamp)) };
         } catch (error) {
             await session.abortTransaction();
@@ -153,5 +157,69 @@ export const getCamps = async (
         };
     } catch (error) {
        return handleError(error) as ErrorResponse
+    }
+};
+
+export const getUserCamps = async (
+    params: GetUserCampsParams
+): Promise<
+    ActionResponse<{
+        camps: Camp[];
+        isNext: boolean;
+        totalResults: number;
+    }>
+> => {
+    try {
+        const validatedRes = await actionHandler({
+            params,
+            schema: GetUserCampsSchema,
+            authorize: false,
+        });
+
+        if (validatedRes instanceof Error) {
+            return handleError(validatedRes) as ErrorResponse;
+        }
+
+        const { clerkid, page = 1, pageSize = 5 } = validatedRes.validatedParams;
+
+        const userDoc = await User.findOne({ clerkid }).select("_id").lean();
+        if (!userDoc) {
+            return {
+                success: true,
+                data: {
+                    camps: [],
+                    isNext: false,
+                    totalResults: 0,
+                },
+                status: 200,
+            };
+        }
+
+        const skip = (Number(page) - 1) * pageSize;
+        const limit = Number(pageSize);
+
+        const filter = { owner: userDoc._id };
+
+        const totalCamps = await CampModel.countDocuments(filter);
+
+        const camps = await CampModel.find(filter)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        const isNext = totalCamps > skip + camps.length;
+
+        return {
+            success: true,
+            data: {
+                camps: JSON.parse(JSON.stringify(camps)),
+                isNext,
+                totalResults: totalCamps,
+            },
+            status: 200,
+        };
+    } catch (error) {
+        return handleError(error) as ErrorResponse;
     }
 };

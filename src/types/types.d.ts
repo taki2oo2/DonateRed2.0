@@ -90,6 +90,10 @@ interface GetUserDetailsParams {
   clerkid:string;
 }
 
+interface GetUserCampsParams extends PaginationSearchParams {
+  clerkid: string;
+}
+
 interface UpdateOtherDetailsParams {
   city: string;
   contactno: string;

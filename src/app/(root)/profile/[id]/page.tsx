@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { getUerInfo } from "@/actions/user.action";
+import { getUserCamps } from "@/actions/camp.action";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -31,8 +32,9 @@ const Page = async ({
     redirect("/");
   }
 
-  // Non-blocking promise passed to Suspense boundaries for streaming
+  // Non-blocking promises passed to Suspense boundaries for streaming
   const userDataPromise = getUerInfo({ clerkid: user.id });
+  const userCampsPromise = getUserCamps({ clerkid: user.id, page: 1, pageSize: 6 });
 
   return (
     <div className="min-h-screen bg-[#0c0d12] text-zinc-100 py-10 px-4 sm:px-6 lg:px-8">
@@ -72,7 +74,7 @@ const Page = async ({
 
           </div>
 
-          {/* Right Column (Donor Status, Recent Activity) */}
+          {/* Right Column (Donor Status, Posted Camps) */}
           <div className="lg:col-span-5 xl:col-span-4 space-y-6">
             
             {/* Donor Status Card */}
@@ -83,9 +85,9 @@ const Page = async ({
               />
             </Suspense>
 
-            {/* Recent Activity Card */}
+            {/* Posted Donation Camps */}
             <Suspense fallback={<RecentActivitySkeleton />}>
-              <RecentActivitySection />
+              <RecentActivitySection userCampsPromise={userCampsPromise} />
             </Suspense>
 
           </div>
