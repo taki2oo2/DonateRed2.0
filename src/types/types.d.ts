@@ -89,3 +89,9 @@ interface GetDonorsParams extends PaginationSearchParams {
 interface GetUserDetailsParams {
   clerkid:string;
 }
+
+interface UpdateOtherDetailsParams {
+  city: string;
+  contactno: string;
+  bloodGroup: string;
+}

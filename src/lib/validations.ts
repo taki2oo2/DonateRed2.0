@@ -256,3 +256,11 @@ export const GetUserDetailSchema =  z.object({
     clerkid: z.string().min(1, { message: "ID is Required" })
 })
 
+export const UpdateOtherDetailsSchema = z.object({
+    city: z.string().min(1, { message: "City is required." }),
+    contactno: z.string().min(1, { message: "Contact number is required." }),
+    bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
+        message: "Please select a valid blood group.",
+    }),
+});
+

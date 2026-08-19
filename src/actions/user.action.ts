@@ -4,8 +4,9 @@ import dbConnect from "@/lib/moongoose";
 import { IUser, User } from "@/database/user.model";
 import handleError from "@/lib/errHandler";
 import { actionHandler } from "@/lib/actionHandler";
-import { changeDonorSchema, GetDonorsSchema, RegisterDonorValidationSchema, GetUserDetailSchema } from "@/lib/validations";
+import { changeDonorSchema, GetDonorsSchema, RegisterDonorValidationSchema, GetUserDetailSchema, UpdateOtherDetailsSchema } from "@/lib/validations";
 import { NotFoundError } from "@/lib/errors";
+import { revalidatePath } from "next/cache";
 
 interface RegisterDonorParams {
   clerkid: string;
@@ -195,3 +196,41 @@ export const getUerInfo = async (params: GetUserDetailsParams): Promise<ActionRe
     return handleError(error) as ErrorResponse
   }
 }
+
+export const updateOtherDetails = async (params: UpdateOtherDetailsParams): Promise<ActionResponse<IUser>> => {
+  try {
+    const validatedRes = await actionHandler({
+      params,
+      schema: UpdateOtherDetailsSchema,
+      authorize: true,
+    });
+
+    if (validatedRes instanceof Error) {
+      return handleError(validatedRes) as ErrorResponse;
+    }
+
+    const { city, contactno, bloodGroup } = validatedRes.validatedParams;
+    const userId = validatedRes.userId;
+
+    if (!userId) {
+      return { success: false, error: { message: "Unauthorized. User ID not found." } };
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { clerkid: userId },
+      { $set: { city, contactno, bloodGroup } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    revalidatePath(`/profile/${userId}`);
+    revalidatePath("/finddonors");
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(updatedUser)),
+      status: 200,
+    };
+  } catch (error) {
+    return handleError(error, "server") as ErrorResponse;
+  }
+};
