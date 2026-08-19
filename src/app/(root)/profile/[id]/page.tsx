@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import PersonalInfoSection from "@/components/profile/PersonalInfoSection";
 import OtherDetailsSection from "@/components/profile/OtherDetailsSection";
-import SecuritySettingsCard from "@/components/profile/SecuritySettingsCard";
 import DonorStatusSection from "@/components/profile/DonorStatusSection";
 import RecentActivitySection from "@/components/profile/RecentActivitySection";
 
@@ -54,10 +53,10 @@ const Page = async ({
         {/* 2-Column Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
-          {/* Left Column (Personal Info, Other Details, Security Settings) */}
+          {/* Left Column (Personal Info & Security, Other Details) */}
           <div className="lg:col-span-7 xl:col-span-8 space-y-6">
             
-            {/* Card 1: Personal Information */}
+            {/* Card 1: Personal & Security Information */}
             <Suspense fallback={<PersonalInfoSkeleton />}>
               <PersonalInfoSection
                 userDataPromise={userDataPromise}
@@ -70,9 +69,6 @@ const Page = async ({
             <Suspense fallback={<OtherDetailsSkeleton />}>
               <OtherDetailsSection userDataPromise={userDataPromise} />
             </Suspense>
-
-            {/* Card 3: Security Settings (Fast / Static Shell) */}
-            <SecuritySettingsCard />
 
           </div>
 
