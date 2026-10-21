@@ -5,9 +5,17 @@ const { PlacesClient } = v1;
 import { NotFoundError } from "@/lib/errors";
 import handleError from "@/lib/errHandler";
 
-const placesClient = new PlacesClient({
-  apiKey: process.env.GOOGLE_MAPS_API_KEY,
-});
+// Singleton pattern - reuse the same client instance
+let placesClientInstance: InstanceType<typeof PlacesClient> | null = null;
+
+const getPlacesClient = () => {
+  if (!placesClientInstance) {
+    placesClientInstance = new PlacesClient({
+      apiKey: process.env.GOOGLE_MAPS_API_KEY,
+    });
+  }
+  return placesClientInstance;
+};
 
 export const autocomplete = async (
   input: string
@@ -20,6 +28,7 @@ export const autocomplete = async (
   const includedRegionCodes = ["in"];
 
   try {
+    const placesClient = getPlacesClient();
     const req = {
       input,
       includedPrimaryTypes: ["(cities)"],
@@ -68,6 +77,7 @@ export const callSearchText = async (
   };
 
   try {
+    const placesClient = getPlacesClient();
     const [response] = await placesClient.searchText(request, callOptions);
     const places = response.places || [];
 

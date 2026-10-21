@@ -1,7 +1,7 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
-import { MapPin } from "lucide-react";
+import { ReactNode, useEffect, useState, useRef } from "react";
+import { MapPin, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { autocomplete } from "@/actions/google.action";
 import {
@@ -37,6 +37,8 @@ export const Autocompletesearch = ({
   const [selectedAddress, setSelectedAddress] = useState<string | null>(value || null);
   const [predictions, setPredictions] = useState<PlaceData[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -107,24 +109,43 @@ export const Autocompletesearch = ({
   };
 
   useEffect(() => {
-    if (!input.trim() || input === selectedAddress) {
+    // Minimum 3 characters required before fetching
+    if (!input.trim() || input.length < 3 || input === selectedAddress) {
       setPredictions([]);
       setIsOpen(false);
       return;
     }
 
-    const timer = setTimeout(async () => {
-      const {data} = await autocomplete(input);
-      if (data && data.length > 0) {
-        setPredictions(data);
-        setIsOpen(true);
-      } else {
-        setPredictions([]);
-        setIsOpen(false);
-      }
-    }, 300);
+    // Cancel previous request if still pending
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
 
-    return () => clearTimeout(timer);
+    const timer = setTimeout(async () => {
+      // Create new abort controller for this request
+      abortControllerRef.current = new AbortController();
+
+      setIsLoading(true);
+      try {
+        const { data } = await autocomplete(input);
+        if (data && data.length > 0) {
+          setPredictions(data);
+          setIsOpen(true);
+        } else {
+          setPredictions([]);
+          setIsOpen(false);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }, 450); // Increased debounce to 450ms
+
+    return () => {
+      clearTimeout(timer);
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
   }, [input, selectedAddress]);
 
   return (
@@ -151,6 +172,9 @@ export const Autocompletesearch = ({
               inputClassName
             )}
           />
+          {isLoading && (
+            <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 size-4 animate-spin text-zinc-400 dark:text-zinc-500" />
+          )}
         </div>
 
         {isOpen && predictions.length > 0 && (
