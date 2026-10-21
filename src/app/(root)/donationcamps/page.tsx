@@ -43,10 +43,10 @@ const DonationCampsPage = async({
         {/* Header Section matching mockup exactly */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 pb-6">
           <div className="space-y-2 max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
-              Blood Donation Camps<span className="text-[#FB2C36] font-sans">.</span>
+            <h1 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white text-wrap: balance">
+              Blood Donation Camps<span className="text-[#FB2C36]">.</span>
             </h1>
-            <p className="text-sm leading-6 text-zinc-500 dark:text-[#ffb4ab]">
+            <p className="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-[65ch] text-wrap: pretty">
               Find and participate in local blood drives. Your single donation can save up to three lives. Discover active camps near you or organize your own to support the community.
             </p>
           </div>

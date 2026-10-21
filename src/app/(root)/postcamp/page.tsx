@@ -26,11 +26,11 @@ const PostCampPage = () => {
             />
 
             <Card className="relative z-10 w-full max-w-3xl bg-white/90 dark:bg-[#0A0A0E]/90 border border-zinc-200/80 dark:border-white/10 rounded-2xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9),0_0_40px_-10px_rgba(251,44,54,0.12)] backdrop-blur-2xl p-6 sm:p-10 overflow-hidden before:absolute before:top-0 before:inset-x-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#FB2C36] before:to-transparent transition-colors duration-300">
-                <CardHeader className="p-0 mb-8 space-y-1.5">
-                    <CardTitle className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
+                <CardHeader className="p-0 mb-8 space-y-2">
+                    <CardTitle className="font-heading text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl text-wrap: balance">
                         Post a New Blood Donation Camp
                     </CardTitle>
-                    <CardDescription className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    <CardDescription className="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-[65ch] text-wrap: pretty">
                         Organize a community event to save lives. Fill out the details below to publish your camp to the LifeStream network.
                     </CardDescription>
                 </CardHeader>

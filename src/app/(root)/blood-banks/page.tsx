@@ -75,11 +75,11 @@ const BloodBanksPage = async ({ searchParams }: Props) => {
               <span>Verified Blood Banks &amp; Emergency Hubs</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
-              Find Blood Banks<span className="text-[#FB2C36] font-sans">.</span>
+            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white text-wrap: balance">
+              Find Blood Banks<span className="text-[#FB2C36]">.</span>
             </h1>
 
-            <p className="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-[#ffb4ab]">
+            <p className="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-[65ch] text-wrap: pretty">
               Locate registered blood banks, verify availability in real-time, and get direct contact numbers and turn-by-turn directions during urgent medical situations.
             </p>
           </div>

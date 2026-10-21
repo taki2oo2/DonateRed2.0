@@ -196,18 +196,18 @@ export const DonorEligibilityForm = () => {
     <div className="w-full max-w-3xl mx-auto space-y-8">
       {/* Title & Subtitle */}
       <div className="text-center space-y-3">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+        <h1 className="font-heading text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white text-wrap: balance">
           Donor Registration
         </h1>
-        <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base max-w-xl mx-auto font-medium">
+        <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base max-w-[55ch] mx-auto font-normal leading-relaxed text-wrap: pretty">
           Saving lives through precision donation. Please complete the following eligibility assessment to register securely as a vital medical resource.
         </p>
       </div>
 
       {/* Progress Section */}
       <div className="space-y-3">
-        <div className="flex justify-between items-center text-xs md:text-sm font-semibold">
-          <span className="text-[#FB2C36]">Step {currentStep} of 6</span>
+        <div className="flex justify-between items-center text-xs md:text-sm font-semibold tabular-nums">
+          <span className="text-[#FB2C36] font-mono">Step {currentStep} of 6</span>
           <span className="text-zinc-600 dark:text-zinc-400">{STEPS[currentStep - 1].name}</span>
         </div>
         <div className="w-full h-2 bg-zinc-200 dark:bg-zinc-800/80 rounded-full overflow-hidden">
@@ -227,8 +227,8 @@ export const DonorEligibilityForm = () => {
             <span className="p-2.5 bg-[#FB2C36]/10 text-[#FB2C36] rounded-xl flex items-center justify-center">
               <ActiveIcon className="size-5 md:size-6" />
             </span>
-            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white">
-              {currentStep}. {STEPS[currentStep - 1].name}
+            <h2 className="font-heading text-lg md:text-xl font-bold text-zinc-900 dark:text-white tracking-tight">
+              <span className="tabular-nums">{currentStep}.</span> {STEPS[currentStep - 1].name}
             </h2>
           </div>
 

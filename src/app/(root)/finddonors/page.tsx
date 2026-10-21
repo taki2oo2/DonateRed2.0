@@ -42,7 +42,7 @@ const FindDonorsPage = async ({
             </div>
 
             {/* Main Title */}
-            <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl leading-[1.15]">
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-[1.12] text-wrap: balance">
               Find Life-Saving{' '}
               <span className="bg-gradient-to-r from-[#FB2C36] via-[#FF535B] to-[#FF8A90] bg-clip-text text-transparent">
                 Donors
@@ -51,7 +51,7 @@ const FindDonorsPage = async ({
             </h1>
 
             {/* Subtitle Paragraph */}
-            <p className="mt-4 text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-[#ffb4ab]/90 max-w-2xl">
+            <p className="mt-4 text-base sm:text-lg leading-relaxed text-zinc-600 dark:text-zinc-300 max-w-[55ch] text-wrap: pretty">
               Instantly connect with verified blood donors in your area. Every second counts in a medical emergency—search by location and blood group below.
             </p>
           </div>

@@ -43,11 +43,11 @@ export default async function ProfileHeader({
       </div>
 
       <div className="space-y-1.5">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+        <h1 className="font-heading text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
           {userData?.fullname || user.fullName}
         </h1>
         <div className="flex items-center gap-2.5 flex-wrap">
-          <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+          <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 tabular-nums">
             Member since {memberSince}
           </span>
           <span className="text-zinc-300 dark:text-zinc-600 text-xs">•</span>
