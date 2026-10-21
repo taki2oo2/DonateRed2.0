@@ -4,6 +4,7 @@ import { getUserCamps } from "@/actions/camp.action";
 import CampCards from "@/components/cards/CampCards";
 import { Tent, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import ROUTES from "@/constants/routes";
 
 const UserCampsPage = async ({
   params,
@@ -60,7 +61,7 @@ const UserCampsPage = async ({
               You haven&apos;t organized any donation camps. Start making a difference today!
             </p>
             <Link
-              href="/post-camp"
+              href={ROUTES.POST_CAMP}
               className="mt-4 inline-flex items-center gap-2 bg-[#FB2C36] hover:bg-[#e0262f] text-white font-semibold px-5 py-2.5 rounded-xl transition-colors"
             >
               <Tent className="w-4 h-4" />
