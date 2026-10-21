@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
-import { Tent, Calendar, MapPin, ExternalLink, Plus } from "lucide-react";
+import { Tent, Calendar, MapPin, ExternalLink, ArrowRight } from "lucide-react";
 import ROUTES from "@/constants/routes";
 
 interface RecentActivitySectionProps {
+  userId?: string;
   userCampsPromise: Promise<
     ActionResponse<{
       camps: Camp[];
@@ -15,6 +16,7 @@ interface RecentActivitySectionProps {
 }
 
 export default async function RecentActivitySection({
+  userId,
   userCampsPromise,
 }: RecentActivitySectionProps) {
   const res = await userCampsPromise;
@@ -32,11 +34,11 @@ export default async function RecentActivitySection({
           </h2>
         </div>
         <Link
-          href={ROUTES.POST_CAMP}
-          className="inline-flex items-center gap-1 text-xs font-semibold text-[#FB2C36] hover:underline cursor-pointer"
+          href={userId ? ROUTES.USER_CAMPS(userId) : ROUTES.DONATION_CAMP}
+          className="inline-flex items-center gap-1 text-xs font-semibold text-[#FB2C36] hover:underline cursor-pointer group"
         >
-          <Plus className="w-3.5 h-3.5" />
-          Post New Camp
+          View All Camps
+          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
 

@@ -87,7 +87,10 @@ const Page = async ({
 
             {/* Posted Donation Camps */}
             <Suspense fallback={<RecentActivitySkeleton />}>
-              <RecentActivitySection userCampsPromise={userCampsPromise} />
+              <RecentActivitySection
+                userCampsPromise={userCampsPromise}
+                userId={id}
+              />
             </Suspense>
 
           </div>
