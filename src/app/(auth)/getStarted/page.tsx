@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Logo from "@/components/navigation/Logo"
+import ROUTES from "@/constants/routes"
 
 const GetStartedPage = () => {
   const searchParams = useSearchParams()
@@ -151,7 +152,7 @@ const GetStartedPage = () => {
               <Signin />
               <div className="mt-4 text-center">
                 <Link
-                  href="/forgot-password"
+                  href= {ROUTES.FORGOTPASSWORD}
                   className="text-xs font-medium text-zinc-400 transition hover:text-[#FB2C36]"
                 >
                   Forgot your password?

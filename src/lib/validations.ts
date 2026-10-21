@@ -44,8 +44,41 @@ export const SigninFormSchema = z.object({
         .regex(/^\S*$/, { message: "Password cannot contain spaces." }),
 });
 
+export const ForgotPasswordFormSchema = z.object({
+    email: z
+        .email({
+            pattern: z.regexes.email,
+            message: "Please provide a valid email address.",
+        })
+        .min(1, { message: "Email is Required" }),
+});
+
+export const ResetPasswordConfirmFormSchema = z
+    .object({
+        code: z.string().min(1, { message: "Verification code is required." }),
+        password: z
+            .string()
+            .min(6, { message: "Password must be at least 6 characters." })
+            .max(64, { message: "Password cannot exceed 64 characters." })
+            .regex(/[A-Z]/, { message: "Must contain an uppercase letter." })
+            .regex(/[a-z]/, { message: "Must contain a lowercase letter." })
+            .regex(/[0-9]/, { message: "Must contain a number." })
+            .regex(/[^A-Za-z0-9]/, { message: "Must contain a special character." })
+            .regex(/^\S*$/, { message: "Password cannot contain spaces." }),
+        confirmPassword: z.string().min(1, { message: "Please confirm your password." }),
+    })
+    .superRefine((data, ctx) => {
+        if (data.password !== data.confirmPassword) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ["confirmPassword"],
+                message: "Passwords do not match.",
+            });
+        }
+    });
 
 export const PostCampFormSchema = z
+
     .object({
         camptitle: z
             .string()
