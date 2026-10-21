@@ -8,7 +8,7 @@ import {
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-[#0c0d12] text-zinc-100 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#0c0d12] text-zinc-900 dark:text-zinc-100 py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-6xl mx-auto space-y-8">
         <ProfileHeaderSkeleton />
 

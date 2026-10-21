@@ -26,7 +26,7 @@ export default async function ProfileHeader({
 
   return (
     <div className="flex items-center gap-5">
-      <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-zinc-700/80 shadow-xl shrink-0 bg-zinc-900">
+      <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-zinc-200 dark:border-zinc-700/80 shadow-md dark:shadow-xl shrink-0 bg-zinc-100 dark:bg-zinc-900">
         {user.imageUrl ? (
           <Image
             src={user.imageUrl}
@@ -36,28 +36,28 @@ export default async function ProfileHeader({
             priority
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-zinc-500">
+          <div className="w-full h-full flex items-center justify-center text-zinc-400 dark:text-zinc-500">
             <UserIcon className="w-8 h-8" />
           </div>
         )}
       </div>
 
       <div className="space-y-1.5">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
           {userData?.fullname || user.fullName}
         </h1>
         <div className="flex items-center gap-2.5 flex-wrap">
-          <span className="text-xs font-mono text-zinc-400">
+          <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
             Member since {memberSince}
           </span>
-          <span className="text-zinc-600 text-xs">•</span>
+          <span className="text-zinc-300 dark:text-zinc-600 text-xs">•</span>
           {isDonor ? (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-500/15 border border-red-500/30 text-[#FB2C36] text-[11px] font-mono font-semibold">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-500/10 dark:bg-red-500/15 border border-red-500/20 dark:border-red-500/30 text-[#FB2C36] text-[11px] font-mono font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#FB2C36] animate-pulse"></span>
               Blood Donor
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-400 text-[11px] font-mono font-medium">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 text-[11px] font-mono font-medium">
               Registered Member
             </span>
           )}

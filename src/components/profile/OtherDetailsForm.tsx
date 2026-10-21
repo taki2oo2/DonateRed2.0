@@ -86,31 +86,31 @@ export default function OtherDetailsForm({
   };
 
   return (
-    <div className="bg-[#12141a]/95 border border-zinc-800/80 rounded-2xl p-6 sm:p-7 shadow-sm">
+    <div className="bg-white dark:bg-[#12141a]/95 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-6 sm:p-7 shadow-sm transition-colors">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-zinc-800/60">
-        <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
+      <div className="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800/60">
+        <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white tracking-tight">
           Other Details
         </h2>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={isEditing ? handleCancel : () => setIsEditing(true)}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded-md bg-zinc-800/80 hover:bg-zinc-700/80 border border-zinc-700/50 text-zinc-300 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded-md bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-700/80 border border-zinc-200 dark:border-zinc-700/50 text-zinc-700 dark:text-zinc-300 transition-all cursor-pointer"
           >
             {isEditing ? (
               <>
-                <X className="w-3.5 h-3.5 text-zinc-400" />
+                <X className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
                 Cancel
               </>
             ) : (
               <>
-                <Pencil className="w-3.5 h-3.5 text-zinc-400" />
+                <Pencil className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
                 Edit
               </>
             )}
           </button>
-          <Info className="w-4 h-4 text-zinc-400" />
+          <Info className="w-4 h-4 text-zinc-400 dark:text-zinc-500" />
         </div>
       </div>
 
@@ -125,7 +125,7 @@ export default function OtherDetailsForm({
               <Field data-invalid={!!fieldState.error} className="space-y-1.5">
                 <FieldLabel
                   htmlFor="city"
-                  className="block text-[10px] font-mono uppercase tracking-widest text-zinc-400 font-semibold"
+                  className="block text-[10px] font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-semibold"
                 >
                   City / Location
                 </FieldLabel>
@@ -136,15 +136,15 @@ export default function OtherDetailsForm({
                     value={field.value}
                     onSelectAddress={(address) => field.onChange(address)}
                     disableUrlUpdate
-                    inputClassName="h-10 bg-[#181a22]/80 border-zinc-800/70 text-zinc-200 text-sm rounded-lg focus-visible:border-zinc-600"
+                    inputClassName="h-10 bg-zinc-50 dark:bg-[#181a22]/80 border-zinc-200 dark:border-zinc-800/70 text-zinc-900 dark:text-zinc-200 text-sm rounded-lg focus-visible:border-zinc-400 dark:focus-visible:border-zinc-600"
                   />
                 ) : (
-                  <div className="w-full bg-[#181a22]/80 border border-zinc-800/70 rounded-lg px-3.5 py-2.5 text-sm text-zinc-200 font-medium">
+                  <div className="w-full bg-zinc-50 dark:bg-[#181a22]/80 border border-zinc-200 dark:border-zinc-800/70 rounded-lg px-3.5 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 font-medium">
                     {field.value || "Not specified"}
                   </div>
                 )}
                 {fieldState.error && (
-                  <FieldError className="text-xs text-red-400">
+                  <FieldError className="text-xs text-red-500 dark:text-red-400">
                     {fieldState.error.message}
                   </FieldError>
                 )}
@@ -160,7 +160,7 @@ export default function OtherDetailsForm({
               <Field data-invalid={!!fieldState.error} className="space-y-1.5">
                 <FieldLabel
                   htmlFor="contactno"
-                  className="block text-[10px] font-mono uppercase tracking-widest text-zinc-400 font-semibold"
+                  className="block text-[10px] font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-semibold"
                 >
                   Contact Number
                 </FieldLabel>
@@ -169,10 +169,10 @@ export default function OtherDetailsForm({
                   id="contactno"
                   disabled={!isEditing || isPending}
                   placeholder="Enter contact number"
-                  className="w-full bg-[#181a22]/80 border-zinc-800/70 text-zinc-200 text-sm h-10 rounded-lg focus-visible:border-zinc-600 disabled:opacity-80 disabled:cursor-not-allowed disabled:bg-[#181a22]/50"
+                  className="w-full bg-zinc-50 dark:bg-[#181a22]/80 border-zinc-200 dark:border-zinc-800/70 text-zinc-900 dark:text-zinc-200 text-sm h-10 rounded-lg focus-visible:border-zinc-400 dark:focus-visible:border-zinc-600 disabled:opacity-80 disabled:cursor-not-allowed disabled:bg-zinc-100/70 dark:disabled:bg-[#181a22]/50"
                 />
                 {fieldState.error && (
-                  <FieldError className="text-xs text-red-400">
+                  <FieldError className="text-xs text-red-500 dark:text-red-400">
                     {fieldState.error.message}
                   </FieldError>
                 )}
@@ -189,7 +189,7 @@ export default function OtherDetailsForm({
                 <Field data-invalid={!!fieldState.error} className="space-y-1.5">
                   <FieldLabel
                     htmlFor="bloodGroup"
-                    className="block text-[10px] font-mono uppercase tracking-widest text-zinc-400 font-semibold"
+                    className="block text-[10px] font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-semibold"
                   >
                     Blood Group
                   </FieldLabel>
@@ -201,11 +201,11 @@ export default function OtherDetailsForm({
                     >
                       <SelectTrigger
                         id="bloodGroup"
-                        className="w-full bg-[#181a22]/80 border-zinc-800/70 text-zinc-200 text-sm h-10 rounded-lg focus-visible:border-zinc-600"
+                        className="w-full bg-zinc-50 dark:bg-[#181a22]/80 border-zinc-200 dark:border-zinc-800/70 text-zinc-900 dark:text-zinc-200 text-sm h-10 rounded-lg focus-visible:border-zinc-400 dark:focus-visible:border-zinc-600"
                       >
                         <SelectValue placeholder="Select blood group" />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#181a22] border-zinc-800 text-zinc-200">
+                      <SelectContent className="bg-white dark:bg-[#181a22] border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-200">
                         {BLOOD_GROUPS.map((bg) => (
                           <SelectItem key={bg} value={bg}>
                             {bg} ({bg.includes("-") ? "Negative" : "Positive"})
@@ -214,14 +214,14 @@ export default function OtherDetailsForm({
                       </SelectContent>
                     </Select>
                   ) : (
-                    <div className="w-full bg-[#181a22]/80 border border-zinc-800/70 rounded-lg px-3.5 py-2.5 text-sm text-zinc-200 font-medium">
+                    <div className="w-full bg-zinc-50 dark:bg-[#181a22]/80 border border-zinc-200 dark:border-zinc-800/70 rounded-lg px-3.5 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 font-medium">
                       {field.value
                         ? `${field.value} (${field.value.includes("-") ? "Negative" : "Positive"})`
                         : "Not specified"}
                     </div>
                   )}
                   {fieldState.error && (
-                    <FieldError className="text-xs text-red-400">
+                    <FieldError className="text-xs text-red-500 dark:text-red-400">
                       {fieldState.error.message}
                     </FieldError>
                   )}
@@ -236,7 +236,7 @@ export default function OtherDetailsForm({
           <MyButton
             type="submit"
             disabled={!isEditing || isPending}
-            className="bg-[#FB2C36] hover:bg-[#e02630] text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all shadow-md shadow-red-950/40 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+            className="bg-[#FB2C36] hover:bg-[#e02630] text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all shadow-md shadow-red-950/20 dark:shadow-red-950/40 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {isPending ? (
               <>

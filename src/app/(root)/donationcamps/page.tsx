@@ -19,8 +19,26 @@ const DonationCampsPage = async({
   const currentPage = resolvedParams.page ? Number(resolvedParams.page) : 1;
 
   return (
-    <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main className="relative min-h-screen bg-background text-foreground transition-colors duration-300 overflow-hidden">
+      {/* Decorative Ambient Background Blobs */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        {/* Top-Right Crimson Aura */}
+        <div className="absolute -top-36 -right-24 sm:-right-10 size-[500px] sm:size-[650px] rounded-full bg-[#FB2C36]/10 dark:bg-[#FB2C36]/15 blur-[140px]" />
+
+        {/* Top-Left Ambient Blob */}
+        <div className="absolute top-12 -left-40 size-[450px] rounded-full bg-red-400/10 dark:bg-[#FB2C36]/10 blur-[130px]" />
+
+        {/* Center Subtle Atmosphere Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[650px] rounded-full bg-[#FB2C36]/5 dark:bg-[#FB2C36]/8 blur-[160px]" />
+
+        {/* Bottom-Right Accent Glow */}
+        <div className="absolute -bottom-40 right-1/4 size-[500px] rounded-full bg-[#FB2C36]/8 dark:bg-red-900/15 blur-[150px]" />
+
+        {/* Top Down Gradient Sheen */}
+        <div className="absolute top-0 inset-x-0 h-72 bg-gradient-to-b from-[#FB2C36]/5 via-transparent to-transparent" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         {/* Header Section matching mockup exactly */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 pb-6">

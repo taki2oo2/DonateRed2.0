@@ -196,10 +196,10 @@ export const DonorEligibilityForm = () => {
     <div className="w-full max-w-3xl mx-auto space-y-8">
       {/* Title & Subtitle */}
       <div className="text-center space-y-3">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white">
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
           Donor Registration
         </h1>
-        <p className="text-zinc-400 text-sm md:text-base max-w-xl mx-auto font-medium">
+        <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base max-w-xl mx-auto font-medium">
           Saving lives through precision donation. Please complete the following eligibility assessment to register securely as a vital medical resource.
         </p>
       </div>
@@ -208,9 +208,9 @@ export const DonorEligibilityForm = () => {
       <div className="space-y-3">
         <div className="flex justify-between items-center text-xs md:text-sm font-semibold">
           <span className="text-[#FB2C36]">Step {currentStep} of 6</span>
-          <span className="text-zinc-400">{STEPS[currentStep - 1].name}</span>
+          <span className="text-zinc-600 dark:text-zinc-400">{STEPS[currentStep - 1].name}</span>
         </div>
-        <div className="w-full h-2 bg-zinc-800/80 rounded-full overflow-hidden">
+        <div className="w-full h-2 bg-zinc-200 dark:bg-zinc-800/80 rounded-full overflow-hidden">
           <div
             className="h-full bg-[#FB2C36] transition-all duration-500 ease-out"
             style={{ width: `${(currentStep / 6) * 100}%` }}
@@ -220,14 +220,14 @@ export const DonorEligibilityForm = () => {
 
       {/* Form Content Card */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="relative overflow-visible bg-zinc-950/40 border border-zinc-800/70 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6 before:absolute before:inset-0 before:backdrop-blur-xl before:rounded-2xl before:-z-10">
+        <div className="relative overflow-visible bg-white/90 dark:bg-zinc-950/40 border border-zinc-200/80 dark:border-zinc-800/70 rounded-2xl p-6 md:p-8 shadow-xl dark:shadow-2xl space-y-6 backdrop-blur-xl transition-colors duration-300">
 
           {/* Card Header */}
-          <div className="flex items-center gap-3 border-b border-zinc-800 pb-4 mb-6">
+          <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-4 mb-6">
             <span className="p-2.5 bg-[#FB2C36]/10 text-[#FB2C36] rounded-xl flex items-center justify-center">
               <ActiveIcon className="size-5 md:size-6" />
             </span>
-            <h2 className="text-lg md:text-xl font-bold text-white">
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white">
               {currentStep}. {STEPS[currentStep - 1].name}
             </h2>
           </div>
@@ -240,7 +240,7 @@ export const DonorEligibilityForm = () => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-3">
-                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-300">
+                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-700 dark:text-zinc-300">
                       Are you between 18 and 65 years old?
                     </FieldLabel>
                     <div className="flex gap-4">
@@ -250,10 +250,10 @@ export const DonorEligibilityForm = () => {
                           type="button"
                           onClick={() => field.onChange(opt)}
                           className={cn(
-                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all",
+                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all cursor-pointer",
                             field.value === opt
                               ? "bg-[#FB2C36]/10 border-[#FB2C36] text-[#FB2C36] ring-2 ring-[#FB2C36]/20"
-                              : "bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:bg-zinc-850 hover:text-zinc-300"
+                              : "bg-zinc-100/80 border-zinc-200 text-zinc-700 hover:bg-zinc-200/70 hover:text-zinc-900 dark:bg-zinc-900/60 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-850 dark:hover:text-zinc-300"
                           )}
                         >
                           {opt === "yes" ? "Yes" : "No"}
@@ -272,7 +272,7 @@ export const DonorEligibilityForm = () => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-3">
-                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-300">
+                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-700 dark:text-zinc-300">
                       Do you weigh at least 45kg?
                     </FieldLabel>
                     <div className="flex gap-4">
@@ -282,10 +282,10 @@ export const DonorEligibilityForm = () => {
                           type="button"
                           onClick={() => field.onChange(opt)}
                           className={cn(
-                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all",
+                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all cursor-pointer",
                             field.value === opt
                               ? "bg-[#FB2C36]/10 border-[#FB2C36] text-[#FB2C36] ring-2 ring-[#FB2C36]/20"
-                              : "bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:bg-zinc-850 hover:text-zinc-300"
+                              : "bg-zinc-100/80 border-zinc-200 text-zinc-700 hover:bg-zinc-200/70 hover:text-zinc-900 dark:bg-zinc-900/60 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-850 dark:hover:text-zinc-300"
                           )}
                         >
                           {opt === "yes" ? "Yes" : "No"}
@@ -309,7 +309,7 @@ export const DonorEligibilityForm = () => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-3">
-                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-300">
+                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-700 dark:text-zinc-300">
                       Do you suffer from any chronic illnesses?
                     </FieldLabel>
                     <div className="flex gap-4">
@@ -319,10 +319,10 @@ export const DonorEligibilityForm = () => {
                           type="button"
                           onClick={() => field.onChange(opt)}
                           className={cn(
-                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all",
+                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all cursor-pointer",
                             field.value === opt
                               ? "bg-[#FB2C36]/10 border-[#FB2C36] text-[#FB2C36] ring-2 ring-[#FB2C36]/20"
-                              : "bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:bg-zinc-850 hover:text-zinc-300"
+                              : "bg-zinc-100/80 border-zinc-200 text-zinc-700 hover:bg-zinc-200/70 hover:text-zinc-900 dark:bg-zinc-900/60 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-850 dark:hover:text-zinc-300"
                           )}
                         >
                           {opt === "yes" ? "Yes" : "No"}
@@ -341,7 +341,7 @@ export const DonorEligibilityForm = () => {
           {/* STEP 3: Medical History */}
           {currentStep === 3 && (
             <div className="space-y-4">
-              <p className="text-zinc-400 text-sm mb-4">
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-4">
                 Please select any conditions you currently have or have experienced in the past.
               </p>
               <Controller
@@ -359,15 +359,15 @@ export const DonorEligibilityForm = () => {
                             className={cn(
                               "flex items-center gap-3 p-4 rounded-xl border cursor-pointer select-none transition-all",
                               isChecked
-                                ? "bg-[#FB2C36]/10 border-[#FB2C36] text-white"
-                                : "bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:bg-zinc-850 hover:text-zinc-300"
+                                ? "bg-[#FB2C36]/10 border-[#FB2C36] text-zinc-900 dark:text-white"
+                                : "bg-zinc-100/80 border-zinc-200 text-zinc-700 hover:bg-zinc-200/70 hover:text-zinc-900 dark:bg-zinc-900/50 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-850 dark:hover:text-zinc-300"
                             )}
                           >
                             <input
                               type="checkbox"
                               checked={isChecked}
                               readOnly
-                              className="size-4 shrink-0 accent-[#FB2C36] rounded border-zinc-700 bg-zinc-900"
+                              className="size-4 shrink-0 accent-[#FB2C36] rounded border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900"
                             />
                             <span className="text-sm font-semibold">{cond.label}</span>
                           </div>
@@ -386,7 +386,7 @@ export const DonorEligibilityForm = () => {
           {/* STEP 4: Female Donors Section */}
           {currentStep === 4 && (
             <div className="space-y-6">
-              <p className="text-zinc-400 text-sm mb-4">
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-4">
                 If applicable, please answer the following questions.
               </p>
               <Controller
@@ -394,7 +394,7 @@ export const DonorEligibilityForm = () => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-3">
-                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-300">
+                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-700 dark:text-zinc-300">
                       Are you currently pregnant or have you been pregnant in the last 6 months?
                     </FieldLabel>
                     <div className="flex gap-3">
@@ -404,10 +404,10 @@ export const DonorEligibilityForm = () => {
                           type="button"
                           onClick={() => field.onChange(opt)}
                           className={cn(
-                            "flex-1 py-3 px-4 rounded-xl border font-bold text-center capitalize transition-all",
+                            "flex-1 py-3 px-4 rounded-xl border font-bold text-center capitalize transition-all cursor-pointer",
                             field.value === opt
                               ? "bg-[#FB2C36]/10 border-[#FB2C36] text-[#FB2C36] ring-2 ring-[#FB2C36]/20"
-                              : "bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:bg-zinc-850 hover:text-zinc-300"
+                              : "bg-zinc-100/80 border-zinc-200 text-zinc-700 hover:bg-zinc-200/70 hover:text-zinc-900 dark:bg-zinc-900/60 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-850 dark:hover:text-zinc-300"
                           )}
                         >
                           {opt === "na" ? "N/A" : opt}
@@ -426,7 +426,7 @@ export const DonorEligibilityForm = () => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-3">
-                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-300">
+                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-700 dark:text-zinc-300">
                       Are you currently breastfeeding?
                     </FieldLabel>
                     <div className="flex gap-3">
@@ -436,10 +436,10 @@ export const DonorEligibilityForm = () => {
                           type="button"
                           onClick={() => field.onChange(opt)}
                           className={cn(
-                            "flex-1 py-3 px-4 rounded-xl border font-bold text-center capitalize transition-all",
+                            "flex-1 py-3 px-4 rounded-xl border font-bold text-center capitalize transition-all cursor-pointer",
                             field.value === opt
                               ? "bg-[#FB2C36]/10 border-[#FB2C36] text-[#FB2C36] ring-2 ring-[#FB2C36]/20"
-                              : "bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:bg-zinc-850 hover:text-zinc-300"
+                              : "bg-zinc-100/80 border-zinc-200 text-zinc-700 hover:bg-zinc-200/70 hover:text-zinc-900 dark:bg-zinc-900/60 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-850 dark:hover:text-zinc-300"
                           )}
                         >
                           {opt === "na" ? "N/A" : opt}
@@ -464,7 +464,7 @@ export const DonorEligibilityForm = () => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-3">
-                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-300">
+                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-700 dark:text-zinc-300">
                       Do you consent to share your phone number with matched recipients or hospitals?
                     </FieldLabel>
                     <div className="flex gap-4">
@@ -474,10 +474,10 @@ export const DonorEligibilityForm = () => {
                           type="button"
                           onClick={() => field.onChange(opt)}
                           className={cn(
-                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all",
+                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all cursor-pointer",
                             field.value === opt
                               ? "bg-[#FB2C36]/10 border-[#FB2C36] text-[#FB2C36] ring-2 ring-[#FB2C36]/20"
-                              : "bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:bg-zinc-850 hover:text-zinc-300"
+                              : "bg-zinc-100/80 border-zinc-200 text-zinc-700 hover:bg-zinc-200/70 hover:text-zinc-900 dark:bg-zinc-900/60 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-850 dark:hover:text-zinc-300"
                           )}
                         >
                           {opt === "yes" ? "Yes" : "No"}
@@ -496,7 +496,7 @@ export const DonorEligibilityForm = () => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-3">
-                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-300">
+                    <FieldLabel className="text-sm md:text-base font-semibold text-zinc-700 dark:text-zinc-300">
                       Are you available to be contacted in emergency situations?
                     </FieldLabel>
                     <div className="flex gap-4">
@@ -506,10 +506,10 @@ export const DonorEligibilityForm = () => {
                           type="button"
                           onClick={() => field.onChange(opt)}
                           className={cn(
-                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all",
+                            "flex-1 py-3 px-6 rounded-xl border font-bold text-center transition-all cursor-pointer",
                             field.value === opt
                               ? "bg-[#FB2C36]/10 border-[#FB2C36] text-[#FB2C36] ring-2 ring-[#FB2C36]/20"
-                              : "bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:bg-zinc-850 hover:text-zinc-300"
+                              : "bg-zinc-100/80 border-zinc-200 text-zinc-700 hover:bg-zinc-200/70 hover:text-zinc-900 dark:bg-zinc-900/60 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-850 dark:hover:text-zinc-300"
                           )}
                         >
                           {opt === "yes" ? "Yes" : "No"}
@@ -523,7 +523,7 @@ export const DonorEligibilityForm = () => {
                 )}
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-zinc-800/60 pt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-zinc-200 dark:border-zinc-800/60 pt-6">
 
                 {/* Contact Number Field */}
                 <Controller
@@ -531,11 +531,11 @@ export const DonorEligibilityForm = () => {
                   control={control}
                   render={({ field, fieldState }) => (
                     <Field className="flex flex-col gap-1.5" data-invalid={fieldState.invalid}>
-                      <FieldLabel className="text-sm font-medium text-zinc-300" htmlFor={field.name}>
+                      <FieldLabel className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor={field.name}>
                         Contact Number
                       </FieldLabel>
                       <div className="relative flex items-center">
-                        <span className="absolute left-3 text-zinc-500">
+                        <span className="absolute left-3 text-zinc-400 dark:text-zinc-500">
                           <Phone className="size-4" />
                         </span>
                         <Input
@@ -545,7 +545,7 @@ export const DonorEligibilityForm = () => {
                           placeholder="Enter your phone number"
                           type="tel"
                           required
-                          className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/30 h-10 rounded-lg"
+                          className="pl-10 bg-zinc-100/80 dark:bg-white/5 border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/20 dark:focus-visible:ring-[#FB2C36]/30 h-10 rounded-lg"
                         />
                       </div>
                       {fieldState.invalid && (
@@ -561,7 +561,7 @@ export const DonorEligibilityForm = () => {
                   control={control}
                   render={({ field, fieldState }) => (
                     <Field className="flex flex-col gap-1.5" data-invalid={fieldState.invalid}>
-                      <FieldLabel className="text-sm font-medium text-zinc-300" htmlFor={field.name}>
+                      <FieldLabel className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor={field.name}>
                         City
                       </FieldLabel>
                       <div className="flex w-full">
@@ -571,7 +571,7 @@ export const DonorEligibilityForm = () => {
                           onSelectAddress={field.onChange}
                           disableUrlUpdate
                           icon={<MapPin className="size-4" />}
-                          inputClassName="h-10 bg-white/5 border-white/10 text-white placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/30 rounded-lg"
+                          inputClassName="h-10 bg-zinc-100/80 dark:bg-white/5 border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/20 dark:focus-visible:ring-[#FB2C36]/30 rounded-lg"
                         />
                       </div>
                       {fieldState.invalid && (
@@ -587,19 +587,19 @@ export const DonorEligibilityForm = () => {
                 name="bloodGroup"
                 control={control}
                 render={({ field, fieldState }) => (
-                  <Field className="flex flex-col gap-1.5 border-t border-zinc-800/60 pt-6" data-invalid={fieldState.invalid}>
-                    <FieldLabel className="text-sm font-medium text-zinc-300" htmlFor={field.name}>
+                  <Field className="flex flex-col gap-1.5 border-t border-zinc-200 dark:border-zinc-800/60 pt-6" data-invalid={fieldState.invalid}>
+                    <FieldLabel className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor={field.name}>
                       Blood Group
                     </FieldLabel>
                     <div className="relative flex items-center w-full">
-                      <span className="absolute left-3 text-zinc-500 z-10">
+                      <span className="absolute left-3 text-zinc-400 dark:text-zinc-500 z-10">
                         <Droplets className="size-4" />
                       </span>
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-full h-10 pl-10 pr-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/30 transition-all cursor-pointer">
+                        <SelectTrigger className="w-full h-10 pl-10 pr-4 bg-zinc-100/80 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-lg text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus-visible:border-[#FB2C36] focus-visible:ring-[#FB2C36]/20 dark:focus-visible:ring-[#FB2C36]/30 transition-all cursor-pointer">
                           <SelectValue placeholder="Select your blood group" />
                         </SelectTrigger>
-                        <SelectContent className="bg-zinc-950 border border-zinc-800">
+                        <SelectContent className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
                           <SelectGroup>
                             <SelectItem value="A+">A+</SelectItem>
                             <SelectItem value="A-">A-</SelectItem>
@@ -628,12 +628,12 @@ export const DonorEligibilityForm = () => {
             <div className="space-y-6">
 
               {/* Important Information Panel */}
-              <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-5 space-y-4">
-                <h3 className="text-sm md:text-base font-bold text-white flex items-center gap-2">
+              <div className="bg-zinc-100/80 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 rounded-xl p-5 space-y-4">
+                <h3 className="text-sm md:text-base font-bold text-zinc-900 dark:text-white flex items-center gap-2">
                   <ShieldAlert className="size-4 text-[#FB2C36]" />
                   Important Information
                 </h3>
-                <ul className="text-xs md:text-sm text-zinc-400 space-y-2.5 list-disc pl-5 leading-relaxed">
+                <ul className="text-xs md:text-sm text-zinc-600 dark:text-zinc-400 space-y-2.5 list-disc pl-5 leading-relaxed">
                   <li>I declare that all information provided is accurate and true to the best of my knowledge.</li>
                   <li>I understand the risks and benefits associated with blood donation.</li>
                   <li>I consent to the testing of my blood for infectious diseases.</li>
@@ -646,12 +646,12 @@ export const DonorEligibilityForm = () => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field className="flex flex-col gap-2">
-                    <label className="flex items-start gap-3 cursor-pointer select-none text-zinc-300">
+                    <label className="flex items-start gap-3 cursor-pointer select-none text-zinc-700 dark:text-zinc-300">
                       <input
                         type="checkbox"
                         checked={field.value}
                         onChange={(e) => field.onChange(e.target.checked)}
-                        className="size-4 mt-1 accent-[#FB2C36] rounded border-zinc-700 bg-zinc-900"
+                        className="size-4 mt-1 accent-[#FB2C36] rounded border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900"
                       />
                       <span className="text-xs md:text-sm leading-relaxed font-semibold">
                         I have read and agree to the Important Information and terms of donation.
@@ -676,7 +676,7 @@ export const DonorEligibilityForm = () => {
               type="button"
               variant="outline"
               onClick={handleBack}
-              className="py-6 px-6 font-bold border-zinc-800 text-zinc-400 hover:bg-zinc-900/40 hover:text-white rounded-xl flex items-center gap-2"
+              className="py-6 px-6 font-bold border-zinc-200 text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900/40 dark:hover:text-white rounded-xl flex items-center gap-2 cursor-pointer transition-colors"
             >
               <ChevronLeft className="size-4" />
               Back
@@ -689,7 +689,7 @@ export const DonorEligibilityForm = () => {
             <MyButton
               type="button"
               onClick={handleNext}
-              className="py-6 px-6 font-bold bg-[#FB2C36] hover:bg-[#D92029] text-white rounded-xl flex items-center gap-2"
+              className="py-6 px-6 font-bold bg-[#FB2C36] hover:bg-[#D92029] text-white rounded-xl flex items-center gap-2 cursor-pointer transition-colors shadow-md"
             >
               Next
               <ChevronRight className="size-4" />
@@ -698,7 +698,7 @@ export const DonorEligibilityForm = () => {
             <MyButton
               type="submit"
               disabled={isSubmitting}
-              className="py-6 px-8 font-bold bg-[#FB2C36] hover:bg-[#D92029] text-white rounded-xl flex items-center gap-2 shadow-lg shadow-red-650/10"
+              className="py-6 px-8 font-bold bg-[#FB2C36] hover:bg-[#D92029] text-white rounded-xl flex items-center gap-2 shadow-lg shadow-red-650/10 cursor-pointer transition-colors"
             >
               {isSubmitting ? (
                 <>
