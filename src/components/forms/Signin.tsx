@@ -8,7 +8,7 @@ import { FieldError, FieldGroup, FieldLabel, Field } from "../ui/field"
 import { Input } from "../ui/input"
 import MyButton from "@/components/MyButton"
 import { Mail, Lock, Loader2 } from "lucide-react"
-import { useSignIn, useClerk } from "@clerk/nextjs"
+import { useSignIn } from "@clerk/nextjs"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
@@ -17,12 +17,11 @@ type SigninFormValues = z.infer<typeof SigninFormSchema>
 
 const Signin = () => {
     const { signIn, fetchStatus } = useSignIn()
-    const { setActive } = useClerk()
     const router = useRouter()
     const [clerkError, setClerkError] = useState<string>("")
 
     const form = useForm<SigninFormValues>({
-        resolver: zodResolver(SigninFormSchema as any),
+        resolver: zodResolver(SigninFormSchema),
         defaultValues: {
             email: "",
             password: "",
@@ -42,22 +41,18 @@ const Signin = () => {
         }
 
         if (signIn.status === "complete") {
-            if (signIn.createdSessionId && setActive) {
-                await setActive({ session: signIn.createdSessionId })
-                toast.success("Welcome back! Signed in successfully.")
-                router.push("/")
-            } else {
-                await signIn.finalize({
-                    navigate: ({ decorateUrl }) => {
-                        const url = decorateUrl("/")
-                        if (url.startsWith("http")) {
-                            window.location.href = url
-                        } else {
-                            router.push(url)
-                        }
-                    },
-                })
-            }
+            await signIn.finalize({
+                navigate: ({ decorateUrl }) => {
+                    toast.success("Welcome back! Signed in successfully.")
+
+                    const url = decorateUrl("/")
+                    if (url.startsWith("http")) {
+                        window.location.href = url
+                    } else {
+                        router.push(url)
+                    }
+                },
+            })
         }
     }
 
