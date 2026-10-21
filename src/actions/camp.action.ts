@@ -3,13 +3,14 @@
 import * as z from "zod";
 import { Camp as CampModel, ICamp } from "@/database/camp.model";
 import { User } from "@/database/user.model";
-import { GetCampsSchmea, GetUserCampsSchema, PostCampFormSchema } from "@/lib/validations";
+import { DeleteCampSchema, GetCampsSchmea, GetUserCampsSchema, PostCampFormSchema } from "@/lib/validations";
 import { actionHandler } from "@/lib/actionHandler";
 import handleError from "@/lib/errHandler";
 import mongoose from "mongoose";
 import cloudinary from "@/lib/cloudinary";
 import logger from "@/lib/logger";
 import { revalidatePath } from "next/cache";
+import { ForbiddenError, NotFoundError } from "@/lib/errors";
 
 export type CreateCampParams = z.infer<typeof PostCampFormSchema>;
 
@@ -219,6 +220,86 @@ export const getUserCamps = async (
             },
             status: 200,
         };
+    } catch (error) {
+        return handleError(error) as ErrorResponse;
+    }
+};
+
+export type DeleteCampParams = z.infer<typeof DeleteCampSchema>;
+
+export const deleteCamp = async (
+    params: DeleteCampParams,
+): Promise<ActionResponse<{ deleted: boolean }>> => {
+    try {
+        const validatedRes = await actionHandler({
+            params,
+            schema: DeleteCampSchema,
+            authorize: true,
+        });
+
+        if (validatedRes instanceof Error) {
+            return handleError(validatedRes) as ErrorResponse;
+        }
+
+        const { campId } = validatedRes.validatedParams;
+        const userId = validatedRes.userId;
+
+        // Find the camp
+        const camp = await CampModel.findById(campId);
+        if (!camp) {
+            throw new NotFoundError("Camp");
+        }
+
+        // Verify the logged-in user is the owner
+        const userDoc = await User.findOne({ clerkid: userId }).select("_id").lean();
+        if (!userDoc) {
+            throw new NotFoundError("User");
+        }
+
+        if (camp.owner.toString() !== userDoc._id.toString()) {
+            throw new ForbiddenError("You are not authorized to delete this camp.");
+        }
+
+        // Use a transaction for the MongoDB deletion
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
+        try {
+            // Delete the camp document inside the transaction
+            const deleted = await CampModel.findByIdAndDelete(campId).session(session);
+            if (!deleted) {
+                throw new Error("Failed to delete camp. Please try again.");
+            }
+
+            await session.commitTransaction();
+            session.endSession();
+        } catch (error) {
+            await session.abortTransaction();
+            session.endSession();
+            throw error;
+        }
+
+        // Clean up the Cloudinary image AFTER the transaction has committed
+        // If this fails the camp is already deleted — orphaned image is acceptable
+        if (camp.imageurl) {
+            try {
+                const urlParts = camp.imageurl.split("/");
+                const publicIdWithExt = urlParts.slice(-1)[0];
+                const publicId = publicIdWithExt?.split(".")[0];
+                if (publicId) {
+                    await cloudinary.uploader.destroy(publicId);
+                }
+            } catch (error) {
+                logger.warn({ error }, `Camp ${campId} deleted but Cloudinary image cleanup failed — orphaned image may need manual removal`);
+            }
+        }
+
+        logger.info(`Camp deleted successfully: campId=${campId}, by user=${userId}`);
+
+        revalidatePath("/donationcamps");
+        revalidatePath(`/profile/${userId}`);
+
+        return { success: true, data: { deleted: true } };
     } catch (error) {
         return handleError(error) as ErrorResponse;
     }

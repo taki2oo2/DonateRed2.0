@@ -2,14 +2,20 @@ import Image from "next/image"
 import { Calendar, Clock, MapPin, Map, Building2 } from 'lucide-react'
 import { format } from "date-fns"
 import Link from "next/link"
+import DeleteCampButton from "@/components/cards/DeleteCampButton"
 
-const CampCards = ({ camp }: { camp: Camp }) => {
+const CampCards = ({ camp, currentUserId }: { camp: Camp; currentUserId?: string }) => {
+    const isOwner = currentUserId && camp.owner === currentUserId;
+
     return (
         <div
             className="bg-zinc-50/50 dark:bg-[#111114]/80 border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 backdrop-blur-xl flex flex-col h-full"
         >
             {/* Card Image */}
             <div className="relative h-48 w-full bg-zinc-100 dark:bg-zinc-900">
+                {isOwner && (
+                    <DeleteCampButton campId={camp._id} campTitle={camp.title} />
+                )}
                 {camp.imageurl && (
                     <Image
                         src={camp.imageurl}

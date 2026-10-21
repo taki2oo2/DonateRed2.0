@@ -268,3 +268,6 @@ export const UpdateOtherDetailsSchema = z.object({
     }),
 });
 
+export const DeleteCampSchema = z.object({
+    campId: z.string().min(1, { message: "Camp ID is required." }),
+});

@@ -2,6 +2,9 @@ import CampCards from '@/components/cards/CampCards'
 import { getCamps } from '@/actions/camp.action'
 import { MapPin } from 'lucide-react'
 import Pagination from '@/components/Pagination'
+import { auth } from '@clerk/nextjs/server'
+import dbConnect from '@/lib/moongoose'
+import { User } from '@/database/user.model'
 
 interface CampCardsListProps {
     city?: string
@@ -9,16 +12,27 @@ interface CampCardsListProps {
 }
 
 const CampCardsList = async ({ city, page = 1 }: CampCardsListProps) => {
-    const result = city ? await getCamps({ city, page, pageSize: 6}) : null;
+    const [result, { userId: clerkId }] = await Promise.all([
+        city ? getCamps({ city, page, pageSize: 6 }) : null,
+        auth(),
+    ]);
     const camps = result?.data?.camps ?? [];
     const isNext = result?.data?.isNext ?? false;
+
+    // Resolve the Clerk ID → MongoDB _id for ownership comparison
+    let currentUserMongoId: string | undefined;
+    if (clerkId) {
+        await dbConnect();
+        const userDoc = await User.findOne({ clerkid: clerkId }).select("_id").lean();
+        currentUserMongoId = userDoc?._id?.toString();
+    }
 
     if (camps.length > 0) {
         return (
             <div className="space-y-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {camps.map((camp) => (
-                        <CampCards key={camp._id} camp={camp} />
+                        <CampCards key={camp._id} camp={camp} currentUserId={currentUserMongoId} />
                     ))}
                 </div>
                 <Pagination page={page} isNext={isNext} />

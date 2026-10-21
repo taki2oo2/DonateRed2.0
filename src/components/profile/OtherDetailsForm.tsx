@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import * as z from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Info, Pencil, X, Loader2 } from "lucide-react";
+import { Info, Pencil, X, Loader2, MapPin } from "lucide-react";
 import { toast } from "sonner";
+import { Autocompletesearch } from "@/components/search/Search";
 
 import { UpdateOtherDetailsSchema } from "@/lib/validations";
 import { Field, FieldLabel, FieldError } from "@/components/ui/field";
@@ -128,13 +129,20 @@ export default function OtherDetailsForm({
                 >
                   City / Location
                 </FieldLabel>
-                <Input
-                  {...field}
-                  id="city"
-                  disabled={!isEditing || isPending}
-                  placeholder="Enter your city"
-                  className="w-full bg-[#181a22]/80 border-zinc-800/70 text-zinc-200 text-sm h-10 rounded-lg focus-visible:border-zinc-600 disabled:opacity-80 disabled:cursor-not-allowed disabled:bg-[#181a22]/50"
-                />
+                {isEditing ? (
+                  <Autocompletesearch
+                    placeholder="Search for your city"
+                    icon={<MapPin className="size-4" />}
+                    value={field.value}
+                    onSelectAddress={(address) => field.onChange(address)}
+                    disableUrlUpdate
+                    inputClassName="h-10 bg-[#181a22]/80 border-zinc-800/70 text-zinc-200 text-sm rounded-lg focus-visible:border-zinc-600"
+                  />
+                ) : (
+                  <div className="w-full bg-[#181a22]/80 border border-zinc-800/70 rounded-lg px-3.5 py-2.5 text-sm text-zinc-200 font-medium">
+                    {field.value || "Not specified"}
+                  </div>
+                )}
                 {fieldState.error && (
                   <FieldError className="text-xs text-red-400">
                     {fieldState.error.message}
